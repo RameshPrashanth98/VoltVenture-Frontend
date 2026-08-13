@@ -61,26 +61,26 @@
 
 ## Traceability
 
-| REQ-ID  | Phase | Plans |
-|---------|-------|-------|
-| AUTH-01 | TBD   | TBD   |
-| AUTH-02 | TBD   | TBD   |
-| AUTH-03 | TBD   | TBD   |
-| AUTH-04 | TBD   | TBD   |
-| AUTH-05 | TBD   | TBD   |
-| DISC-01 | TBD   | TBD   |
-| DISC-02 | TBD   | TBD   |
-| DISC-03 | TBD   | TBD   |
-| DISC-04 | TBD   | TBD   |
-| BOOK-01 | TBD   | TBD   |
-| BOOK-02 | TBD   | TBD   |
-| BOOK-03 | TBD   | TBD   |
-| BOOK-04 | TBD   | TBD   |
-| RIDE-01 | TBD   | TBD   |
-| RIDE-02 | TBD   | TBD   |
-| RIDE-03 | TBD   | TBD   |
-| RIDE-04 | TBD   | TBD   |
-| PAY-01  | TBD   | TBD   |
-| PAY-02  | TBD   | TBD   |
-| PAY-03  | TBD   | TBD   |
-| PAY-04  | TBD   | TBD   |
+| REQ-ID  | Phase                        | Plans |
+|---------|------------------------------|-------|
+| AUTH-01 | Phase 1: Foundation & Auth   | TBD   |
+| AUTH-02 | Phase 1: Foundation & Auth   | TBD   |
+| AUTH-03 | Phase 1: Foundation & Auth   | TBD   |
+| AUTH-04 | Phase 1: Foundation & Auth   | TBD   |
+| AUTH-05 | Phase 1: Foundation & Auth   | TBD   |
+| DISC-01 | Phase 2: Bike Discovery      | TBD   |
+| DISC-02 | Phase 2: Bike Discovery      | TBD   |
+| DISC-03 | Phase 2: Bike Discovery      | TBD   |
+| DISC-04 | Phase 2: Bike Discovery      | TBD   |
+| BOOK-01 | Phase 3: Booking & Unlock    | TBD   |
+| BOOK-02 | Phase 3: Booking & Unlock    | TBD   |
+| BOOK-03 | Phase 3: Booking & Unlock    | TBD   |
+| BOOK-04 | Phase 3: Booking & Unlock    | TBD   |
+| RIDE-01 | Phase 4: Active Ride & Pay   | TBD   |
+| RIDE-02 | Phase 4: Active Ride & Pay   | TBD   |
+| RIDE-03 | Phase 4: Active Ride & Pay   | TBD   |
+| RIDE-04 | Phase 4: Active Ride & Pay   | TBD   |
+| PAY-01  | Phase 4: Active Ride & Pay   | TBD   |
+| PAY-02  | Phase 4: Active Ride & Pay   | TBD   |
+| PAY-03  | Phase 4: Active Ride & Pay   | TBD   |
+| PAY-04  | Phase 4: Active Ride & Pay   | TBD   |
