@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import * as AppleAuthentication from 'expo-apple-authentication';
 import type { StackScreenProps } from '@react-navigation/stack';
 
 import { authService } from '../../services/authService';
@@ -18,6 +19,7 @@ import { validateEmail } from '../../utils/validation';
 import type { AuthStackParamList } from '../../types/navigation';
 import FormField from '../../components/common/FormField';
 import PrimaryButton from '../../components/common/PrimaryButton';
+import SocialAuthButton, { getMockGoogleToken } from '../../components/common/SocialAuthButton';
 import { DSColors } from '../../theme/theme';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -45,6 +47,41 @@ export default function LoginScreen({ navigation }: Props) {
   const handlePasswordChange = (text: string) => {
     setPassword(text);
     if (formError) setFormError(null);
+  };
+
+  const handleGoogleSignIn = async () => {
+    setIsLoading(true);
+    try {
+      const token = await getMockGoogleToken();
+      await authContext.signIn(token);
+    } catch {
+      setFormError('Sign in with Google failed. Try again or use email.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleAppleSignIn = async () => {
+    setIsLoading(true);
+    try {
+      await AppleAuthentication.signInAsync({
+        requestedScopes: [
+          AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+          AppleAuthentication.AppleAuthenticationScope.EMAIL,
+        ],
+      });
+      // Store name/email from first Apple sign-in — credential not re-returned on subsequent sign-ins.
+      // Implement persistent storage in integration phase.
+      const token = 'mock-apple-token-' + Date.now();
+      await authContext.signIn(token);
+    } catch (e: any) {
+      if (e.code === 'ERR_REQUEST_CANCELED') {
+        return; // User cancelled — silent per UI-SPEC
+      }
+      setFormError('Sign in with Apple failed. Try again or use email.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleLogin = async () => {
@@ -149,24 +186,25 @@ export default function LoginScreen({ navigation }: Props) {
               <View style={styles.dividerLine} />
             </View>
 
-            {/* Social auth stubs */}
+            {/* Social auth buttons */}
             <View style={styles.socialContainer}>
-              <TouchableOpacity
-                style={styles.socialButton}
-                onPress={() => console.log('Social auth coming in Plan 01-05')}
-                accessibilityLabel="Continue with Google"
-              >
-                <Text style={styles.socialButtonText}>Continue with Google</Text>
-              </TouchableOpacity>
+              <SocialAuthButton
+                label="Continue with Google"
+                iconName="google"
+                onPress={handleGoogleSignIn}
+                disabled={isLoading}
+                testID="login-google"
+              />
 
+              {/* Apple Sign-In — iOS only per D-16 and App Store requirement (AppleAuthenticationButton) */}
               {Platform.OS === 'ios' && (
-                <TouchableOpacity
-                  style={[styles.socialButton, styles.socialButtonGap]}
-                  onPress={() => console.log('Social auth coming in Plan 01-05')}
-                  accessibilityLabel="Continue with Apple"
-                >
-                  <Text style={styles.socialButtonText}>Continue with Apple</Text>
-                </TouchableOpacity>
+                <AppleAuthentication.AppleAuthenticationButton
+                  buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+                  buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+                  cornerRadius={8}
+                  style={styles.appleButton}
+                  onPress={handleAppleSignIn}
+                />
               )}
             </View>
 
@@ -247,23 +285,11 @@ const styles = StyleSheet.create({
   },
   socialContainer: {
     width: '100%',
+    gap: 12,
   },
-  socialButton: {
-    borderWidth: 1,
-    borderColor: DSColors.border,
-    backgroundColor: DSColors.surface,
-    height: 48,
-    borderRadius: 8,
+  appleButton: {
     width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  socialButtonGap: {
-    marginTop: 12,
-  },
-  socialButtonText: {
-    fontSize: 14,
-    color: DSColors.textPrimary,
+    height: 44,
   },
   signUpRow: {
     flexDirection: 'row',
