@@ -78,7 +78,7 @@ Plans:
 
 | # | Phase | Status | Requirements |
 |---|-------|--------|--------------|
-| 1 | Foundation & Authentication | Pending | AUTH-01–05 |
+| 1 | Foundation & Authentication | Planned | AUTH-01–05 |
 | 2 | Bike Discovery | Pending | DISC-01–04 |
 | 3 | Booking & Unlock | Pending | BOOK-01–04 |
 | 4 | Active Ride & Payment | Pending | RIDE-01–04, PAY-01–04 |
