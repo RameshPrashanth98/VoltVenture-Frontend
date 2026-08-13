@@ -18,6 +18,11 @@ See: .planning/PROJECT.md (updated 2026-08-13)
 
 (None yet)
 
+## Session Continuity
+
+Last session: 2026-08-13
+Stopped at: Phase 1 UI-SPEC approved — ready to run /gsd:plan-phase 1
+
 ## Notes
 
 - Project initialized 2026-08-13
