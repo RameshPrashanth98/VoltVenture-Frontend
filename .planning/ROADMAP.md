@@ -9,6 +9,15 @@
 **Goal:** Scaffold the React Native app with design system integration and deliver a fully working auth flow — sign up, login, social auth, password reset.
 **Mode:** mvp
 **Requirements:** AUTH-01, AUTH-02, AUTH-03, AUTH-04, AUTH-05
+**Plans:** 6 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Walking Skeleton (project scaffold, theming, navigation, auth bootstrap)
+- [ ] 01-02-PLAN.md — Onboarding Flow (splash, 3-slide onboarding, auth landing)
+- [ ] 01-03-PLAN.md — Sign Up (email/password form, inline validation, mock auth, SecureStore)
+- [ ] 01-04-PLAN.md — Log In + Forgot Password (session restore, auth forms, password reset)
+- [ ] 01-05-PLAN.md — Social Auth (Google + Apple sign-in buttons, mock OAuth flow)
+- [ ] 01-06-PLAN.md — Account Tab + Logout (account screen, confirmation dialog, session clear)
 
 **Success Criteria**:
 1. App launches on iOS and Android with VoltVenture design system tokens (colors, typography, spacing) applied globally
