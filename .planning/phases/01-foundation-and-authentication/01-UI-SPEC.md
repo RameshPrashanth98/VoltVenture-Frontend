@@ -68,13 +68,11 @@ Font family: **Nunito Sans** (confirmed from DS site). React Native font loading
 | Role | Size | Weight | Line Height | Usage |
 |------|------|--------|-------------|-------|
 | Display | 32dp | 700 (bold) | 1.2 (38dp) | Splash tagline, onboarding headline |
-| Heading | 24dp | 700 (bold) | 1.25 (30dp) | Screen titles (Sign Up, Log In), slide headlines |
-| Subheading | 18dp | 700 (bold) | 1.3 (23dp) | Section labels, card titles |
+| Heading | 24dp | 700 (bold) | 1.25 (30dp) | Screen titles (Sign Up, Log In), slide headlines, section labels, card titles |
 | Body | 16dp | 400 (regular) | 1.5 (24dp) | Body copy, onboarding taglines, form help text |
-| Label | 14dp | 400 (regular) | 1.4 (20dp) | Input field labels, secondary links, tab labels |
-| Caption | 12dp | 400 (regular) | 1.4 (17dp) | Inline error messages below fields, legal copy |
+| Label | 14dp | 400 (regular) | 1.4 (20dp) | Input field labels, secondary links, tab labels, inline error messages, captions |
 
-**Declared sizes:** 32, 24, 18, 16, 14, 12 (6 sizes for Phase 1 due to auth screen variety)
+**Declared sizes:** 32, 24, 16, 14 (4 sizes)
 **Declared weights:** 400 (regular) and 700 (bold) — confirmed from DS site. TODO: verify if 600 (semibold) exists in the DS before using it.
 
 **TODO:** Verify exact size scale against `foundation-typography--type-scale` story on DS site before implementation. Replace placeholder values with exact DS values in `theme.ts`.
@@ -150,12 +148,12 @@ Then update `theme.ts` with exact values before any UI implementation begins.
 | Ghost / Link Button | `Button` mode="text" | Primary Brand (label) | Label 14dp / weight 400 | default |
 | TextInput (default) | `TextInput` mode="outlined" | Border (outline) / Surface (fill) / Text Primary (value) | Body 16dp / weight 400 | default |
 | TextInput (focused) | `TextInput` mode="outlined" | Primary Brand (outline) | Body 16dp / weight 400 | focused |
-| TextInput (error) | `TextInput` mode="outlined" | Error (outline + helper text) | Caption 12dp / weight 400 | error |
-| Field Error Text | `HelperText` type="error" | Error | Caption 12dp / weight 400 | visible on validation |
+| TextInput (error) | `TextInput` mode="outlined" | Error (outline + helper text) | Label 14dp / weight 400 | error |
+| Field Error Text | `HelperText` type="error" | Error | Label 14dp / weight 400 | visible on validation |
 | Screen Title | `Text` (themed) | Text Primary | Heading 24dp / weight 700 | — |
 | Body Copy | `Text` (themed) | Text Primary | Body 16dp / weight 400 | — |
 | Secondary Copy | `Text` (themed) | Text Secondary | Label 14dp / weight 400 | — |
-| Tab Bar | `BottomNavigation` (RNP) | Surface (background) / Primary Brand (active icon) / Text Secondary (inactive) | Caption 12dp | active, inactive |
+| Tab Bar | `BottomNavigation` (RNP) | Surface (background) / Primary Brand (active icon) / Text Secondary (inactive) | Label 14dp | active, inactive |
 | Social Auth Button | Custom (TouchableOpacity) | Surface (fill) / Border (outline) | Label 14dp / weight 700 | default, pressed |
 | ActivityIndicator | `ActivityIndicator` (RNP) | Text On Primary (on filled button) | N/A | loading only |
 | Dialog | `Dialog` (RNP) | Background (surface) / Text Primary (copy) / Destructive (confirm button) | Body 16dp | confirm, dismiss |
@@ -177,7 +175,7 @@ Then update `theme.ts` with exact values before any UI implementation begins.
 - Validation fires on field blur (not on keystroke) — source: CONTEXT.md specifics
 - Error text appears below the offending `TextInput` using RNP `HelperText` type="error"
 - Error text color: DS Error color
-- Error text size: Caption 12dp
+- Error text size: Label 14dp
 - Example errors (per CONTEXT.md):
   - Email: "Please enter a valid email address"
   - Password (Sign Up): "Password must be at least 8 characters"
@@ -374,7 +372,7 @@ This section replaces the shadcn registry section for React Native projects.
 - [ ] Dimension 1 Copywriting: all screen headings, CTAs, labels, error messages, empty states defined
 - [ ] Dimension 2 Visuals: screen architecture, component map, interaction contracts defined
 - [ ] Dimension 3 Color: 60/30/10 split declared; accent reserved-for list explicit; TODO tokens flagged
-- [ ] Dimension 4 Typography: 6 sizes, 2 weights declared; font family confirmed (Nunito Sans)
+- [ ] Dimension 4 Typography: 4 sizes (32, 24, 16, 14dp), 2 weights declared; font family confirmed (Nunito Sans)
 - [ ] Dimension 5 Spacing: 8-point scale declared in dp; touch target exception noted (44dp min)
 - [ ] Dimension 6 Registry Safety: no third-party web registries; all React Native libraries listed with safety notes
 
