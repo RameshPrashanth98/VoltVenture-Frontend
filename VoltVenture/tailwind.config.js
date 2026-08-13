@@ -1,4 +1,18 @@
-const { DSColors } = require('./src/theme/theme');
+// DS color tokens inlined here (source of truth: src/theme/theme.ts).
+// Cannot require() theme.ts directly — it's TypeScript ESM and imports react-native-paper.
+// Keep in sync with DSColors in theme.ts manually.
+const DSColors = {
+  primary: '#C6FF2D',
+  background: '#FFFFFF',
+  surface: '#FAFAFA',
+  textPrimary: '#0F0F0F',
+  textSecondary: '#808080',
+  textOnPrimary: '#0F0F0F',
+  accent: '#7D9220',
+  border: '#EBEBEB',
+  error: '#D32F2F',
+  destructive: '#B00020',
+};
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {

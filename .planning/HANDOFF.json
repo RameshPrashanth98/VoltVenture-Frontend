@@ -1,42 +1,59 @@
 {
   "version": "1.0",
-  "timestamp": "2026-08-13T00:00:00+05:30",
-  "phase": "1",
+  "timestamp": "2026-08-13T00:00:00Z",
+  "phase": "01",
   "phase_name": "Foundation & Authentication",
   "phase_dir": ".planning/phases/01-foundation-and-authentication",
-  "plan": null,
-  "task": null,
-  "total_tasks": null,
+  "plan": "UAT",
+  "task": 1,
+  "total_tasks": 14,
   "status": "paused",
   "completed_tasks": [
-    {"id": 1, "name": "Project initialized (PROJECT.md, config.json, REQUIREMENTS.md, ROADMAP.md, STATE.md, CLAUDE.md)", "status": "done", "commit": "ddeb956"},
-    {"id": 2, "name": "GitHub remote connected and all commits pushed", "status": "done", "commit": "d4d7c30"},
-    {"id": 3, "name": "Phase 1 discussion completed (01-CONTEXT.md, 01-DISCUSSION-LOG.md)", "status": "done", "commit": "d4d7c30"}
+    {"id": "01-01", "name": "Walking Skeleton", "status": "done", "commit": "228ed44"},
+    {"id": "01-02", "name": "Onboarding Flow", "status": "done", "commit": "de47865"},
+    {"id": "01-03", "name": "Sign Up Screen", "status": "done", "commit": "4e4626c"},
+    {"id": "01-04", "name": "Login + Forgot Password", "status": "done", "commit": "faa7763"},
+    {"id": "01-05", "name": "Social Auth — Google + Apple", "status": "done", "commit": "f93cd63"},
+    {"id": "01-06", "name": "Account Tab + Logout", "status": "done", "commit": "9bb2975"}
   ],
   "remaining_tasks": [
-    {"id": 4, "name": "Phase 1 planning (/gsd:plan-phase 1)", "status": "not_started"},
-    {"id": 5, "name": "Phase 1 execution (/gsd:execute-phase 1)", "status": "not_started"},
-    {"id": 6, "name": "Design system token extraction (user must share VoltVenture DS font details)", "status": "not_started"}
+    {"id": "UAT-1", "name": "App Cold Start", "status": "not_started"},
+    {"id": "UAT-2", "name": "Splash Auto-Advance to Onboarding", "status": "not_started"},
+    {"id": "UAT-3", "name": "Onboarding Skip Link", "status": "not_started"},
+    {"id": "UAT-4", "name": "Onboarding Slide Progression and Get Started", "status": "not_started"},
+    {"id": "UAT-5", "name": "Auth Landing Navigation", "status": "not_started"},
+    {"id": "UAT-6", "name": "Sign Up Validation", "status": "not_started"},
+    {"id": "UAT-7", "name": "Sign Up Success Flow", "status": "not_started"},
+    {"id": "UAT-8", "name": "Login Wrong Password Error", "status": "not_started"},
+    {"id": "UAT-9", "name": "Login Success Flow", "status": "not_started"},
+    {"id": "UAT-10", "name": "Forgot Password Flow", "status": "not_started"},
+    {"id": "UAT-11", "name": "Google Sign-In on Sign Up Screen", "status": "not_started"},
+    {"id": "UAT-12", "name": "Google Sign-In on Login Screen", "status": "not_started"},
+    {"id": "UAT-13", "name": "Account Tab Content", "status": "not_started"},
+    {"id": "UAT-14", "name": "Logout Confirmation Dialog", "status": "not_started"}
   ],
-  "blockers": [],
+  "blockers": [
+    {
+      "description": "Expo Go on App Store/Play Store does not support Expo SDK 57. User gets 'requires newer version of Expo Go' on both Android and iPhone.",
+      "type": "human_action",
+      "workaround": "Option A: Android Studio + emulator (API 34) then `npx expo start --android`. Option B: `eas build --profile development --platform android`."
+    }
+  ],
   "human_actions_pending": [
     {
-      "action": "Share VoltVenture design system font name and weights",
-      "context": "Font details needed before theme.ts can be fully completed. A TODO comment will be placed in theme.ts as a placeholder.",
-      "blocking": false
+      "action": "Set up Android emulator (Android Studio) OR create EAS development build to run SDK 57 app on device",
+      "context": "Published Expo Go on stores does not support SDK 57. UAT cannot proceed without a running app.",
+      "blocking": true
     }
   ],
   "decisions": [
-    {"decision": "Splash → Onboarding (3 slides) → Auth entry flow", "rationale": "Tourist-first: show value before asking for signup", "phase": "1"},
-    {"decision": "Root navigator: AuthStack vs AppTabs based on auth state", "rationale": "Clean separation of auth and app flows", "phase": "1"},
-    {"decision": "2 tabs in Phase 1: Map + Account", "rationale": "Minimal navigation for the current scope; more tabs added in later phases", "phase": "1"},
-    {"decision": "All auth screens are headerless", "rationale": "Full design freedom for the VoltVenture branded auth UI", "phase": "1"},
-    {"decision": "PaperProvider at root + NativeWind tailwind.config.js extend same DS tokens", "rationale": "Single source of truth for design tokens", "phase": "1"},
-    {"decision": "Inline field errors for auth", "rationale": "Immediate, contextual feedback for tourists unfamiliar with the app", "phase": "1"},
-    {"decision": "Session persists until manual logout (SecureStorage)", "rationale": "Tourist-friendly: no re-login during a trip", "phase": "1"},
-    {"decision": "Social auth: @react-native-google-signin + expo-apple-authentication", "rationale": "Standard community libraries, well-maintained", "phase": "1"}
+    {
+      "decision": "tailwind.config.js: DSColors inlined directly instead of require('./src/theme/theme')",
+      "rationale": "theme.ts is TypeScript ESM and imports react-native-paper — Node.js/jiti cannot parse it. Caused SyntaxError on `npx expo start`. Keep tailwind.config.js in sync with theme.ts manually.",
+      "phase": "01"
+    }
   ],
   "uncommitted_files": [],
-  "next_action": "Run /gsd:plan-phase 1 to create the execution plan for Phase 1: Foundation & Authentication",
-  "context_notes": "Project is fully initialized. VoltVenture is a tourist e-bike rental mobile app (React Native + React Native Paper + NativeWind). Phase 1 discussion is complete with all implementation decisions captured in 01-CONTEXT.md. The next step is planning. The user will share VoltVenture design system font details when ready — leave a TODO in theme.ts."
+  "next_action": "Once app is running: run `/gsd:verify-work 1` to resume UAT from Test 1 (App Cold Start)",
+  "context_notes": "All 6 Phase 1 plans are complete and committed. UAT file at .planning/phases/01-foundation-and-authentication/01-UAT.md has 14 tests, all pending. Only blocker is device/emulator setup for Expo SDK 57."
 }
