@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import type { StackScreenProps } from '@react-navigation/stack';
+import type { AuthStackParamList } from '../../types/navigation';
 import { DSColors } from '../../theme/theme';
 
-// Placeholder — replaced in Plan 01-02
-// This React Navigation screen shows after the OS splash (expo-splash-screen) hides.
-export default function SplashScreen() {
+type Props = StackScreenProps<AuthStackParamList, 'Splash'>;
+
+export default function SplashScreen({ navigation }: Props) {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigation.navigate('Onboarding');
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>VoltVenture</Text>
