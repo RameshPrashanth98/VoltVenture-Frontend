@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { FAB, IconButton } from 'react-native-paper';
 import { BottomSheetModal, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
-import { DSColors } from '../../theme/theme';
+import { DSColors, DSTypography } from '../../theme/theme';
 import { bikeService } from '../../services/bikeService';
 import { Bike, FilterState } from '../../types/bike';
 import BikeMarker from '../../components/map/BikeMarker';
 import BikeDetailSheet from '../../components/map/BikeDetailSheet';
-// TODO: import FilterSheet from '../../components/map/FilterSheet'; — wired in Plan 02-03
+import FilterSheet from '../../components/map/FilterSheet';
 // TODO: import BikeListView from '../../components/map/BikeListView'; — wired in Plan 02-04
 
 function haversineKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
@@ -151,7 +151,24 @@ export default function MapScreen() {
         />
       </BottomSheetModal>
 
-      {/* TODO: FilterSheet BottomSheetModal — wired in Plan 02-03 */}
+      <BottomSheetModal
+        ref={filterSheetRef}
+        snapPoints={snapPoints}
+        enablePanDownToClose
+        backdropComponent={renderBackdrop}
+      >
+        <FilterSheet
+          initialFilters={activeFilters}
+          onApply={handleApplyFilters}
+        />
+      </BottomSheetModal>
+
+      {filteredBikes.length === 0 && bikes.length > 0 && (
+        <View style={styles.emptyOverlay}>
+          <Text style={styles.emptyText}>No bikes match your filters.</Text>
+        </View>
+      )}
+
       {/* TODO: BikeListView — wired in Plan 02-04 */}
     </View>
   );
@@ -170,5 +187,21 @@ const styles = StyleSheet.create({
     right: 16,
     zIndex: 10,
     backgroundColor: DSColors.primary,
+  },
+  emptyOverlay: {
+    position: 'absolute',
+    bottom: 140,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    zIndex: 5,
+  },
+  emptyText: {
+    ...DSTypography.body,
+    color: DSColors.textPrimary,
+    backgroundColor: DSColors.background,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
   },
 });
