@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { FAB, IconButton } from 'react-native-paper';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { BottomSheetModal, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { DSColors } from '../../theme/theme';
 import { bikeService } from '../../services/bikeService';
 import { Bike, FilterState } from '../../types/bike';
 import BikeMarker from '../../components/map/BikeMarker';
-// TODO: import BikeDetailSheet from '../../components/map/BikeDetailSheet'; — wired in Plan 02-02
+import BikeDetailSheet from '../../components/map/BikeDetailSheet';
 // TODO: import FilterSheet from '../../components/map/FilterSheet'; — wired in Plan 02-03
 // TODO: import BikeListView from '../../components/map/BikeListView'; — wired in Plan 02-04
 
@@ -93,6 +93,11 @@ export default function MapScreen() {
     filterSheetRef.current?.dismiss();
   }, []);
 
+  const renderBackdrop = useCallback(
+    (props: any) => <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />,
+    [],
+  );
+
   return (
     <View style={StyleSheet.absoluteFill}>
       <MapView
@@ -134,7 +139,18 @@ export default function MapScreen() {
         onPress={() => setIsListView(true)}
       />
 
-      {/* TODO: BikeDetailSheet BottomSheetModal — wired in Plan 02-02 */}
+      <BottomSheetModal
+        ref={bikeDetailRef}
+        snapPoints={snapPoints}
+        enablePanDownToClose
+        backdropComponent={renderBackdrop}
+      >
+        <BikeDetailSheet
+          bike={selectedBike}
+          onReserve={() => console.log('TODO Phase 3: navigate to booking')}
+        />
+      </BottomSheetModal>
+
       {/* TODO: FilterSheet BottomSheetModal — wired in Plan 02-03 */}
       {/* TODO: BikeListView — wired in Plan 02-04 */}
     </View>
