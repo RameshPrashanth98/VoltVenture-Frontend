@@ -1,33 +1,158 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { DSColors, DSTypography } from '../../theme/theme';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { FAB, IconButton } from 'react-native-paper';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import MapView, { Marker } from 'react-native-maps';
+import * as Location from 'expo-location';
+import { DSColors } from '../../theme/theme';
+import { bikeService } from '../../services/bikeService';
+import { Bike, FilterState } from '../../types/bike';
+import BikeMarker from '../../components/map/BikeMarker';
+// TODO: import BikeDetailSheet from '../../components/map/BikeDetailSheet'; — wired in Plan 02-02
+// TODO: import FilterSheet from '../../components/map/FilterSheet'; — wired in Plan 02-03
+// TODO: import BikeListView from '../../components/map/BikeListView'; — wired in Plan 02-04
+
+function haversineKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
 
 export default function MapScreen() {
+  const [bikes, setBikes] = useState<Bike[]>([]);
+  const [selectedBike, setSelectedBike] = useState<Bike | null>(null);
+  const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
+  const [isListView, setIsListView] = useState(false);
+  const [activeFilters, setActiveFilters] = useState<FilterState>({});
+
+  const bikeDetailRef = useRef<BottomSheetModal>(null);
+  const filterSheetRef = useRef<BottomSheetModal>(null);
+
+  const snapPoints = useMemo(() => ['45%'], []);
+
+  const filteredBikes = useMemo(() => {
+    const loc = userLocation ?? { latitude: 52.3676, longitude: 4.9041 };
+    return bikes
+      .filter(bike => {
+        if (activeFilters.battery) {
+          if (activeFilters.battery === 'low' && bike.batteryPct > 40) return false;
+          if (activeFilters.battery === 'med' && (bike.batteryPct <= 40 || bike.batteryPct > 75)) return false;
+          if (activeFilters.battery === 'high' && bike.batteryPct <= 75) return false;
+        }
+        if (activeFilters.price) {
+          if (activeFilters.price === 'low' && bike.pricePerMin > 0.22) return false;
+          if (activeFilters.price === 'med' && (bike.pricePerMin <= 0.22 || bike.pricePerMin > 0.27)) return false;
+          if (activeFilters.price === 'high' && bike.pricePerMin <= 0.27) return false;
+        }
+        if (activeFilters.type && bike.type !== activeFilters.type) return false;
+        return true;
+      })
+      .map(bike => ({
+        ...bike,
+        distanceKm: haversineKm(loc.latitude, loc.longitude, bike.latitude, bike.longitude),
+      }));
+  }, [bikes, activeFilters, userLocation]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          setUserLocation({ latitude: 52.3676, longitude: 4.9041 });
+        } else {
+          const pos = await Location.getCurrentPositionAsync({});
+          setUserLocation({ latitude: pos.coords.latitude, longitude: pos.coords.longitude });
+        }
+        const nearby = await bikeService.getNearbyBikes();
+        setBikes(nearby);
+      } catch (err) {
+        console.error('MapScreen init error:', err);
+        setUserLocation({ latitude: 52.3676, longitude: 4.9041 });
+      }
+    })();
+  }, []);
+
+  const handleMarkerPress = useCallback((bike: Bike) => {
+    setSelectedBike(bike);
+    bikeDetailRef.current?.present();
+  }, []);
+
+  const handleFilterPress = useCallback(() => {
+    filterSheetRef.current?.present();
+  }, []);
+
+  const handleApplyFilters = useCallback((filters: FilterState) => {
+    setActiveFilters(filters);
+    filterSheetRef.current?.dismiss();
+  }, []);
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <Text style={styles.heading}>Bikes Coming Soon</Text>
-        <Text style={styles.body}>
-          The map will show available e-bikes near you. Coming in the next update.
-        </Text>
-      </View>
-    </SafeAreaView>
+    <View style={StyleSheet.absoluteFill}>
+      <MapView
+        style={StyleSheet.absoluteFill}
+        initialRegion={{
+          latitude: 52.3676,
+          longitude: 4.9041,
+          latitudeDelta: 0.05,
+          longitudeDelta: 0.05,
+        }}
+        showsUserLocation={true}
+        showsMyLocationButton={false}
+      >
+        {filteredBikes.map(bike => (
+          <Marker
+            key={bike.id}
+            coordinate={{ latitude: bike.latitude, longitude: bike.longitude }}
+            onPress={() => handleMarkerPress(bike)}
+            tracksViewChanges={false}
+          >
+            <BikeMarker />
+          </Marker>
+        ))}
+      </MapView>
+
+      <IconButton
+        icon="filter-variant"
+        onPress={handleFilterPress}
+        iconColor={DSColors.textOnPrimary}
+        containerColor={DSColors.primary}
+        style={styles.filterButton}
+      />
+
+      <FAB
+        icon="format-list-bulleted"
+        label="List view"
+        color={DSColors.textOnPrimary}
+        style={styles.fab}
+        onPress={() => setIsListView(true)}
+      />
+
+      {/* TODO: BikeDetailSheet BottomSheetModal — wired in Plan 02-02 */}
+      {/* TODO: FilterSheet BottomSheetModal — wired in Plan 02-03 */}
+      {/* TODO: BikeListView — wired in Plan 02-04 */}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: DSColors.background },
-  content: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 24 },
-  heading: {
-    ...DSTypography.heading,
-    color: DSColors.textPrimary,
-    textAlign: 'center',
-    marginBottom: 12,
+  filterButton: {
+    position: 'absolute',
+    top: 52,
+    right: 12,
+    zIndex: 10,
   },
-  body: {
-    ...DSTypography.body,
-    color: DSColors.textSecondary,
-    textAlign: 'center',
+  fab: {
+    position: 'absolute',
+    bottom: 88,
+    right: 16,
+    zIndex: 10,
+    backgroundColor: DSColors.primary,
   },
 });

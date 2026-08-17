@@ -17,7 +17,8 @@
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.anonymous.VoltVenture"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -32,7 +33,9 @@
           "iosUrlScheme": "com.googleusercontent.apps.TODO_REPLACE_WITH_REAL_CLIENT_ID"
         }
       ],
-      "expo-apple-authentication"
+      "expo-apple-authentication",
+      ["react-native-maps", { "androidGoogleMapsApiKey": "YOUR_ANDROID_MAPS_KEY_HERE" }],
+      ["expo-location", { "locationWhenInUsePermission": "Allow VoltVenture to show nearby e-bikes on the map." }]
     ]
   }
 }

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
@@ -42,6 +43,7 @@ function AppInner() {
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+      <BottomSheetModalProvider>
       <PaperProvider theme={paperTheme}>
         <SafeAreaProvider>
           <NavigationContainer>
@@ -51,6 +53,7 @@ export default function App() {
           </NavigationContainer>
         </SafeAreaProvider>
       </PaperProvider>
+      </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );
 }
