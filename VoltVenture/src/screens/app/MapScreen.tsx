@@ -10,7 +10,7 @@ import { Bike, FilterState } from '../../types/bike';
 import BikeMarker from '../../components/map/BikeMarker';
 import BikeDetailSheet from '../../components/map/BikeDetailSheet';
 import FilterSheet from '../../components/map/FilterSheet';
-// TODO: import BikeListView from '../../components/map/BikeListView'; — wired in Plan 02-04
+import BikeListView from '../../components/map/BikeListView';
 
 function haversineKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
   const R = 6371;
@@ -98,6 +98,16 @@ export default function MapScreen() {
     [],
   );
 
+  const sortedBikes = useMemo(
+    () => [...filteredBikes].sort((a, b) => (a.distanceKm ?? 0) - (b.distanceKm ?? 0)),
+    [filteredBikes],
+  );
+
+  const handleBikeSelect = useCallback((bike: Bike) => {
+    setSelectedBike(bike);
+    bikeDetailRef.current?.present();
+  }, []);
+
   return (
     <View style={StyleSheet.absoluteFill}>
       <MapView
@@ -131,13 +141,15 @@ export default function MapScreen() {
         style={styles.filterButton}
       />
 
-      <FAB
-        icon="format-list-bulleted"
-        label="List view"
-        color={DSColors.textOnPrimary}
-        style={styles.fab}
-        onPress={() => setIsListView(true)}
-      />
+      {!isListView && (
+        <FAB
+          icon="format-list-bulleted"
+          label="List view"
+          color={DSColors.textOnPrimary}
+          style={styles.fab}
+          onPress={() => setIsListView(true)}
+        />
+      )}
 
       <BottomSheetModal
         ref={bikeDetailRef}
@@ -163,13 +175,26 @@ export default function MapScreen() {
         />
       </BottomSheetModal>
 
-      {filteredBikes.length === 0 && bikes.length > 0 && (
+      {filteredBikes.length === 0 && bikes.length > 0 && !isListView && (
         <View style={styles.emptyOverlay}>
           <Text style={styles.emptyText}>No bikes match your filters.</Text>
         </View>
       )}
 
-      {/* TODO: BikeListView — wired in Plan 02-04 */}
+      {isListView && (
+        <View style={styles.listContainer}>
+          <View style={styles.listHeader}>
+            <Text style={styles.listTitle}>Nearby Bikes</Text>
+            <IconButton
+              icon="map"
+              onPress={() => setIsListView(false)}
+              iconColor={DSColors.textPrimary}
+              accessibilityLabel="Switch to map view"
+            />
+          </View>
+          <BikeListView bikes={sortedBikes} onSelectBike={handleBikeSelect} />
+        </View>
+      )}
     </View>
   );
 }
@@ -203,5 +228,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 8,
+  },
+  listContainer: {
+    flex: 1,
+    backgroundColor: DSColors.background,
+  },
+  listHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: DSColors.border,
+  },
+  listTitle: {
+    ...DSTypography.heading,
+    color: DSColors.textPrimary,
   },
 });
