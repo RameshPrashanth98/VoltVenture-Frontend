@@ -33,6 +33,13 @@ Plans:
 **Goal:** User can find available e-bikes near them — map view, bike details, filtering, and list fallback — so they can identify which bike to rent.
 **Mode:** mvp
 **Requirements:** DISC-01, DISC-02, DISC-03, DISC-04
+**Plans:** 4 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Map Foundation (packages, app.json, types, bikeService, BikeMarker, MapScreen rewrite with live bike pins)
+- [ ] 02-02-PLAN.md — Bike Detail Sheet (BikeDetailSheet component wired to marker tap)
+- [ ] 02-03-PLAN.md — Filter Sheet (FilterSheet component with chip selectors; filter logic updates map)
+- [ ] 02-04-PLAN.md — List View (BikeCard, BikeListView, FAB toggle; list sorted by distance)
 
 **Success Criteria**:
 1. Map screen loads showing pinned available e-bikes at their locations
@@ -79,6 +86,6 @@ Plans:
 | # | Phase | Status | Requirements |
 |---|-------|--------|--------------|
 | 1 | Foundation & Authentication | Planned | AUTH-01–05 |
-| 2 | Bike Discovery | Pending | DISC-01–04 |
+| 2 | Bike Discovery | Planned | DISC-01–04 |
 | 3 | Booking & Unlock | Pending | BOOK-01–04 |
 | 4 | Active Ride & Payment | Pending | RIDE-01–04, PAY-01–04 |
