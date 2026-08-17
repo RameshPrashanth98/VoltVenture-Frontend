@@ -1,12 +1,12 @@
 {
   "version": "1.0",
-  "timestamp": "2026-08-14T07:30:00Z",
-  "phase": "01",
-  "phase_name": "Foundation & Authentication",
-  "phase_dir": ".planning/phases/01-foundation-and-authentication",
-  "plan": "UAT",
-  "task": 1,
-  "total_tasks": 14,
+  "timestamp": "2026-08-17T00:00:00.000Z",
+  "phase": "3",
+  "phase_name": "Booking & Unlock",
+  "phase_dir": ".planning/phases/03-booking-and-unlock",
+  "plan": 0,
+  "task": 0,
+  "total_tasks": 0,
   "status": "paused",
   "completed_tasks": [
     {"id": "01-01", "name": "Walking Skeleton", "status": "done", "commit": "228ed44"},
@@ -14,46 +14,40 @@
     {"id": "01-03", "name": "Sign Up Screen", "status": "done", "commit": "4e4626c"},
     {"id": "01-04", "name": "Login + Forgot Password", "status": "done", "commit": "faa7763"},
     {"id": "01-05", "name": "Social Auth — Google + Apple", "status": "done", "commit": "f93cd63"},
-    {"id": "01-06", "name": "Account Tab + Logout", "status": "done", "commit": "9bb2975"}
+    {"id": "01-06", "name": "Account Tab + Logout", "status": "done", "commit": "9bb2975"},
+    {"id": "02-01", "name": "MapView, BikeMarker, bikeService, types", "status": "done", "commit": "90f0cfc"},
+    {"id": "02-02", "name": "BikeDetailSheet (marker tap → bottom sheet)", "status": "done", "commit": "76b1a82"},
+    {"id": "02-03", "name": "FilterSheet (filter chips live-update markers)", "status": "done", "commit": "17ee244"},
+    {"id": "02-04", "name": "BikeListView (distance-sorted list view)", "status": "done", "commit": "e4370b0"},
+    {"id": "03-discuss", "name": "Phase 3 discuss — context + decisions captured", "status": "done", "commit": "0a3df8e"}
   ],
   "remaining_tasks": [
-    {"id": "UAT-1", "name": "App Cold Start", "status": "not_started"},
-    {"id": "UAT-2", "name": "Splash Auto-Advance to Onboarding", "status": "not_started"},
-    {"id": "UAT-3", "name": "Onboarding Skip Link", "status": "not_started"},
-    {"id": "UAT-4", "name": "Onboarding Slide Progression and Get Started", "status": "not_started"},
-    {"id": "UAT-5", "name": "Auth Landing Navigation", "status": "not_started"},
-    {"id": "UAT-6", "name": "Sign Up Validation", "status": "not_started"},
-    {"id": "UAT-7", "name": "Sign Up Success Flow", "status": "not_started"},
-    {"id": "UAT-8", "name": "Login Wrong Password Error", "status": "not_started"},
-    {"id": "UAT-9", "name": "Login Success Flow", "status": "not_started"},
-    {"id": "UAT-10", "name": "Forgot Password Flow", "status": "not_started"},
-    {"id": "UAT-11", "name": "Google Sign-In on Sign Up Screen", "status": "not_started"},
-    {"id": "UAT-12", "name": "Google Sign-In on Login Screen", "status": "not_started"},
-    {"id": "UAT-13", "name": "Account Tab Content", "status": "not_started"},
-    {"id": "UAT-14", "name": "Logout Confirmation Dialog", "status": "not_started"}
+    {"id": "03-plan", "name": "Phase 3 plan-phase — generate wave-based execution plans", "status": "not_started"},
+    {"id": "03-execute", "name": "Phase 3 execute — BookingStack (bookingService, nav, BookingConfirmation, QRScanner, BLEUnlock, UnlockSuccess)", "status": "not_started"},
+    {"id": "04-all", "name": "Phase 4 — Active Ride & Payment", "status": "not_started"}
   ],
   "blockers": [
     {
-      "description": "Expo Go on App Store/Play Store does not support Expo SDK 57. User gets 'requires newer version of Expo Go' on both Android and iPhone.",
+      "description": "Expo SDK 57 not supported by published Expo Go — UAT for Phase 1 and 2 skipped",
       "type": "human_action",
-      "workaround": "Option A: Android Studio + Pixel emulator (API 34) then `npx expo start --android`. Option B: `eas build --profile development --platform android`."
+      "workaround": "Use Android emulator (Android Studio + Pixel API 34) or EAS dev build"
     }
   ],
   "human_actions_pending": [
     {
-      "action": "Set up Android emulator (Android Studio + Pixel API 34) OR create EAS development build to run SDK 57 app",
-      "context": "Step-by-step Android Studio guide was provided this session. User is in the process of setting up the emulator. UAT cannot proceed without a running app.",
-      "blocking": true
+      "action": "Set up Android emulator (Android Studio) or EAS dev build to run the app",
+      "context": "Expo SDK 57 is incompatible with published Expo Go; phases 1 and 2 UAT are pending this setup. Non-blocking for Phase 3 planning.",
+      "blocking": false
     }
   ],
   "decisions": [
-    {
-      "decision": "tailwind.config.js: DSColors inlined directly instead of require('./src/theme/theme')",
-      "rationale": "theme.ts is TypeScript ESM and imports react-native-paper — Node.js/jiti cannot parse it. Caused SyntaxError on `npx expo start`. Keep tailwind.config.js in sync with theme.ts manually.",
-      "phase": "01"
-    }
+    {"decision": "tailwind.config.js: DSColors inlined directly instead of require('./src/theme/theme')", "rationale": "theme.ts is TypeScript ESM + imports RNP — Node.js/jiti cannot parse it. SyntaxError on npx expo start. Keep in sync with theme.ts manually.", "phase": "1"},
+    {"decision": "BookingStack uses modal presentation (slides up over AppTabs)", "rationale": "Booking flow overlays the map; dismissed cleanly on success or cancel", "phase": "3"},
+    {"decision": "expo-camera for QR scanning (SDK 57 compatible)", "rationale": "No additional native module complexity; expo managed workflow", "phase": "3"},
+    {"decision": "BLE unlock is pure mock — no BLE library", "rationale": "Real hardware pairing is v2/backend; phase 3 intent is met with 3-state auto-advance UI", "phase": "3"},
+    {"decision": "bookingService.ts mirrors bikeService.ts pattern exactly", "rationale": "Consistent service layer established in Phase 2", "phase": "3"}
   ],
   "uncommitted_files": [],
-  "next_action": "Once app is running on emulator: run `/gsd:verify-work 1` to resume UAT from Test 1 (App Cold Start)",
-  "context_notes": "All 6 Phase 1 plans are complete and committed. UAT file at .planning/phases/01-foundation-and-authentication/01-UAT.md has 14 tests, all pending. This session provided a full step-by-step Android Studio + Pixel emulator (API 34) setup guide. User is working on emulator setup. Note: 01-04-SUMMARY.md was not written before context exhaustion — plan was executed and committed successfully."
+  "next_action": "Run /gsd:plan-phase 3 — discuss phase complete, 03-CONTEXT.md has all decisions. Generate wave-based execution plans.",
+  "context_notes": "Phases 1 and 2 are fully executed (10 plans total). Phase 3 discuss-phase complete with all architectural decisions in 03-CONTEXT.md. Codebase is clean; Reserve button in BikeDetailSheet.tsx has a clear TODO placeholder for Phase 3 wiring. Planning is the immediate next step."
 }
