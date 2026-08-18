@@ -75,6 +75,12 @@ Plans:
 **Goal:** User can complete a full ride — see live timer and cost, monitor battery, end the session, pay in-app, and view their receipt and ride history.
 **Mode:** mvp
 **Requirements:** RIDE-01, RIDE-02, RIDE-03, RIDE-04, PAY-01, PAY-02, PAY-03, PAY-04
+**Plans:** 3 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — Types, services, and navigation wiring (ride.ts, payment.ts, navigation.ts, rideService, paymentService, RideNavigator, AccountNavigator, RootNavigator + AppTabs update, UnlockSuccessScreen Start Ride wired)
+- [ ] 04-02-PLAN.md — Ride screens (ActiveRideScreen full-screen map + overlay timer/cost/battery + End Ride, PaymentSummaryScreen, RideReceiptScreen)
+- [ ] 04-03-PLAN.md — Account tab additions (AccountScreen new rows, RideHistoryScreen FlatList, PaymentMethodsScreen mock Visa + stub add)
 
 **Success Criteria**:
 1. Active ride screen shows a running timer and live cost updating every second
@@ -94,4 +100,4 @@ Plans:
 | 1 | Foundation & Authentication | Planned | AUTH-01–05 |
 | 2 | Bike Discovery | Planned | DISC-01–04 |
 | 3 | Booking & Unlock | Planned | BOOK-01–04 |
-| 4 | Active Ride & Payment | Pending | RIDE-01–04, PAY-01–04 |
+| 4 | Active Ride & Payment | Planned | RIDE-01–04, PAY-01–04 |
