@@ -744,17 +744,17 @@ const perMinCharge = rideSummary.costEur - baseFare;
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **BookingStack dismiss race condition when navigating to RideStack**
    - What we know: Both stacks are siblings in RootNavigator with modal presentation
    - What's unclear: Whether React Navigation 7.x automatically dismisses the previous modal or stacks them
-   - Recommendation: Implement with current CONTEXT.md D-01 approach; add Pitfall 5 mitigation if double-modal is observed during testing
+   - RESOLVED: Implement with current CONTEXT.md D-01 approach (`getParent<any>()?.navigate('RideStack', ...)`). Pitfall 5 mitigation (explicit dismiss before navigate if double-modal is observed) is documented in plans and can be applied at runtime if needed. No blocker — verify during testing.
 
 2. **AccountScreen navigation prop type**
    - What we know: AccountScreen currently has no `navigation` prop (uses only useAuthContext)
    - What's unclear: Whether to add `StackScreenProps<AccountStackParamList, 'AccountMain'>` to existing component signature or use `useNavigation` hook
-   - Recommendation: Add `navigation` prop via `StackScreenProps` — consistent with all other screens in the project
+   - RESOLVED: Add `navigation` prop via `StackScreenProps<AccountStackParamList, 'AccountMain'>` — consistent with all other screens in the project. Plan 04-03 Task 1 implements this explicitly.
 
 ---
 
