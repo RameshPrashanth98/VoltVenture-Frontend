@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-08-13)
 
 - **Phase:** 4 of 4
 - **Phase name:** Active Ride & Payment
-- **Phase status:** In progress (Plan 01 complete, Plans 02-03 remaining)
+- **Phase status:** Executed (all 3 plans complete)
 - **Milestone:** 1
 
 ## Completed Phases
@@ -37,8 +37,8 @@ See: .planning/PROJECT.md (updated 2026-08-13)
 
 ## Session Continuity
 
-Last session: 2026-08-18T06:35:54.842Z
-Stopped at: context exhaustion at 75% (2026-08-18)
+Last session: 2026-08-18T06:38:38Z
+Stopped at: Phase 4 Plan 03 complete — all plans done (2026-08-18)
 
 ## Notes
 
@@ -55,3 +55,6 @@ Stopped at: context exhaustion at 75% (2026-08-18)
 - Phase 3 Wave 2 (03-03): COMPLETE — BLEUnlockScreen 3-state mock (scanning→found→connecting), clearTimeout cleanup, Cancel button. BookingConfirmation expiry Snackbar was already complete from 03-01.
 - Decisions: StyleSheet.absoluteFill (not .absoluteFillObject) for viewfinder overlay; hasScanned useRef guard mitigates T-03-05; pointerEvents="none" on viewfinder allows camera touch-through; BLE mock uses cumulative setTimeout offsets (1500/2500/3500 ms); marginTop:'auto' cast for bottom-pinned Cancel button
 - Phase 4 Plan 01: RideStack modal sibling to BookingStack; AccountNavigator wraps AccountScreen as AccountMain; rideHistory in-memory array (resets on restart, acceptable for mock scope); stub screens typed to satisfy TypeScript before implementation
+- Phase 4 Plan 02: ActiveRideScreen full-screen map + floating overlay timer/cost/battery + End Ride red button; PaymentSummaryScreen trip card + Visa 4242 row + Confirm & Pay with 1500ms mock; RideReceiptScreen checkmark + breakdown + Done dismisses RideStack; rideService.endRide records completed ride to in-memory history
+- Phase 4 Plan 03: AccountScreen navigation prop typed StackScreenProps<AccountStackParamList,'AccountMain'>; Ride History + Payment Methods rows above Log Out; RideHistoryScreen FlatList from rideService.getRideHistory() with empty state; PaymentMethodsScreen Visa 4242 mock card + Add Snackbar stub; PAY-02 view-only per D-16
+- Phase 4 complete (2026-08-18): All 16 plans executed across 4 phases. Full tourist e-bike rental flow: auth → map → booking → QR/BLE unlock → active ride → payment → receipt → account.

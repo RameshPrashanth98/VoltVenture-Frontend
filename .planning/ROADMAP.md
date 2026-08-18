@@ -97,7 +97,7 @@ Plans:
 
 | # | Phase | Status | Requirements |
 |---|-------|--------|--------------|
-| 1 | Foundation & Authentication | Planned | AUTH-01–05 |
-| 2 | Bike Discovery | Planned | DISC-01–04 |
-| 3 | Booking & Unlock | Planned | BOOK-01–04 |
-| 4 | Active Ride & Payment | Planned | RIDE-01–04, PAY-01–04 |
+| 1 | Foundation & Authentication | Executed | AUTH-01–05 |
+| 2 | Bike Discovery | Executed | DISC-01–04 |
+| 3 | Booking & Unlock | Executed | BOOK-01–04 |
+| 4 | Active Ride & Payment | Executed | RIDE-01–04, PAY-01–04 |
