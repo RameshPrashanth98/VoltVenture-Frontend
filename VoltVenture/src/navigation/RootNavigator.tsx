@@ -4,6 +4,7 @@ import type { RootStackParamList } from '../types/navigation';
 import { useAuthContext } from '../context/AuthContext';
 import AuthStack from './AuthStack';
 import AppTabs from './AppTabs';
+import BookingNavigator from './BookingNavigator';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -28,6 +29,11 @@ export default function RootNavigator() {
           }
         />
       )}
+      <Stack.Screen
+        name="BookingStack"
+        component={BookingNavigator}
+        options={{ presentation: 'modal', headerShown: false }}
+      />
     </Stack.Navigator>
   );
 }

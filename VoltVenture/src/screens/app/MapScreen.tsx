@@ -4,9 +4,12 @@ import { FAB, IconButton } from 'react-native-paper';
 import { BottomSheetModal, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { DSColors, DSTypography } from '../../theme/theme';
 import { bikeService } from '../../services/bikeService';
 import { Bike, FilterState } from '../../types/bike';
+import { RootStackParamList } from '../../types/navigation';
 import BikeMarker from '../../components/map/BikeMarker';
 import BikeDetailSheet from '../../components/map/BikeDetailSheet';
 import FilterSheet from '../../components/map/FilterSheet';
@@ -26,6 +29,7 @@ function haversineKm(lat1: number, lon1: number, lat2: number, lon2: number): nu
 }
 
 export default function MapScreen() {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const [bikes, setBikes] = useState<Bike[]>([]);
   const [selectedBike, setSelectedBike] = useState<Bike | null>(null);
   const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
@@ -159,7 +163,11 @@ export default function MapScreen() {
       >
         <BikeDetailSheet
           bike={selectedBike}
-          onReserve={() => console.log('TODO Phase 3: navigate to booking')}
+          onReserve={() => {
+              if (!selectedBike) return;
+              bikeDetailRef.current?.dismiss();
+              navigation.navigate('BookingStack', { screen: 'BookingConfirmation', params: { bike: selectedBike } });
+            }}
         />
       </BottomSheetModal>
 
