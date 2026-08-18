@@ -5,6 +5,7 @@ import { useAuthContext } from '../context/AuthContext';
 import AuthStack from './AuthStack';
 import AppTabs from './AppTabs';
 import BookingNavigator from './BookingNavigator';
+import RideNavigator from './RideNavigator';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -32,6 +33,11 @@ export default function RootNavigator() {
       <Stack.Screen
         name="BookingStack"
         component={BookingNavigator}
+        options={{ presentation: 'modal', headerShown: false }}
+      />
+      <Stack.Screen
+        name="RideStack"
+        component={RideNavigator}
         options={{ presentation: 'modal', headerShown: false }}
       />
     </Stack.Navigator>

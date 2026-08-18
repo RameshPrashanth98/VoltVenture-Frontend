@@ -39,10 +39,10 @@ export default function UnlockSuccessScreen({ route, navigation }: Props) {
       {/* Spacer */}
       <View style={styles.spacer} />
 
-      {/* Start Ride CTA — Phase 4 stub: pops entire BookingStack back to map */}
+      {/* Start Ride CTA — navigates to RideStack/ActiveRide modal */}
       <PrimaryButton
         label="Start Ride"
-        onPress={() => navigation.getParent()?.goBack()}
+        onPress={() => navigation.getParent<any>()?.navigate('RideStack', { screen: 'ActiveRide', params: { bike } })}
       />
     </View>
   );

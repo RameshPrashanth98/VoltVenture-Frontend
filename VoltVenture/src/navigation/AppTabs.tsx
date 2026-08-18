@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { AppTabParamList } from '../types/navigation';
 import MapScreen from '../screens/app/MapScreen';
-import AccountScreen from '../screens/app/AccountScreen';
+import AccountNavigator from './AccountNavigator';
 import { DSColors } from '../theme/theme';
 
 const Tab = createBottomTabNavigator<AppTabParamList>();
@@ -38,7 +38,7 @@ export default function AppTabs() {
       />
       <Tab.Screen
         name="Account"
-        component={AccountScreen}
+        component={AccountNavigator}
         options={{
           tabBarLabel: 'Account',
           tabBarIcon: ({ focused, color, size }) => (
