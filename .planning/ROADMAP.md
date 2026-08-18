@@ -56,12 +56,16 @@ Cross-cutting constraints: ProfileContext (in-memory profile state) must be init
 **Goal:** User can access security settings, complete identity and biometric verification flows, and view their security deposit.
 **Mode:** mvp
 **Requirements:** SEC-01, SEC-02, SEC-03, SEC-04
-**Plans:** TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 06-01-PLAN.md — LoginSecurity screen (2FA toggle, active session list)
-- [ ] 06-02-PLAN.md — IdScan screen (camera-based document scan, mock OCR result)
-- [ ] 06-03-PLAN.md — FacialScan screen (camera-based liveness mock) + SecurityDeposit screen (status card, refund CTA)
+
+**Wave 1**
+- [ ] 06-01-PLAN.md — Navigation types + AccountNavigator (4 new routes) + AccountScreen Security row + LoginSecurityScreen (2FA toggle, session list, verification rows with badges, SecurityDeposit nav row)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 06-02-PLAN.md — IdScanScreen: landscape viewfinder mock, corner brackets, 3-state capture machine, "Identity Verified" success state, onVerified callback
+- [ ] 06-03-PLAN.md — FacialScanScreen (oval viewfinder, "Face Verified" success) + SecurityDepositScreen ($150.00 status card, Request Refund CTA with disabled state + Snackbar)
 
 **Success Criteria:**
 1. User can enable/disable two-factor authentication from settings
@@ -142,7 +146,7 @@ Plans:
 | 3 | Booking & Unlock | v1.0 | 3 | Complete | 2026-08-18 |
 | 4 | Active Ride & Payment | v1.0 | 3 | Complete | 2026-08-18 |
 | 5 | Account & Profile | v1.1 | 3 | Planned | — |
-| 6 | Security & Verification | v1.1 | 3 | Not started | — |
+| 6 | Security & Verification | v1.1 | 3 | Planned | — |
 | 7 | Navigation & Ride Extras | v1.1 | 3 | Not started | — |
 | 8 | Payments & Rewards | v1.1 | 3 | Not started | — |
 | 9 | Discovery & Content | v1.1 | 3 | Not started | — |
