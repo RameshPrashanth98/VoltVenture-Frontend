@@ -3,11 +3,15 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Portal, Dialog, Button } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { useAuthContext } from '../../context/AuthContext';
 import { DSColors } from '../../theme/theme';
+import type { AccountStackParamList } from '../../types/navigation';
+
+type Props = StackScreenProps<AccountStackParamList, 'AccountMain'>;
 
 // Phase 1: Account screen is minimal — only logout. Profile editing deferred to v2 (REQUIREMENTS.md deferred section).
-export default function AccountScreen() {
+export default function AccountScreen({ navigation }: Props) {
   const authContext = useAuthContext();
   const [showLogout, setShowLogout] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -34,6 +38,48 @@ export default function AccountScreen() {
         <View style={styles.titleSection}>
           <Text style={styles.title}>Account</Text>
         </View>
+
+        {/* Ride History row */}
+        <TouchableOpacity
+          style={styles.menuRow}
+          onPress={() => navigation.navigate('RideHistory')}
+          activeOpacity={0.7}
+        >
+          <View style={styles.menuRowLeft}>
+            <MaterialCommunityIcons
+              name="history"
+              size={20}
+              color={DSColors.textPrimary}
+            />
+            <Text style={styles.menuRowText}>Ride History</Text>
+          </View>
+          <MaterialCommunityIcons
+            name="chevron-right"
+            size={20}
+            color={DSColors.textSecondary}
+          />
+        </TouchableOpacity>
+
+        {/* Payment Methods row */}
+        <TouchableOpacity
+          style={styles.menuRow}
+          onPress={() => navigation.navigate('PaymentMethods')}
+          activeOpacity={0.7}
+        >
+          <View style={styles.menuRowLeft}>
+            <MaterialCommunityIcons
+              name="credit-card"
+              size={20}
+              color={DSColors.textPrimary}
+            />
+            <Text style={styles.menuRowText}>Payment Methods</Text>
+          </View>
+          <MaterialCommunityIcons
+            name="chevron-right"
+            size={20}
+            color={DSColors.textSecondary}
+          />
+        </TouchableOpacity>
 
         {/* Log Out row */}
         <TouchableOpacity
@@ -91,6 +137,26 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: '700',
+    color: DSColors.textPrimary,
+  },
+  menuRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    backgroundColor: DSColors.surface,
+    borderTopWidth: 1,
+    borderColor: DSColors.border,
+  },
+  menuRowLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  menuRowText: {
+    fontSize: 16,
+    fontWeight: '400',
     color: DSColors.textPrimary,
   },
   logoutRow: {
