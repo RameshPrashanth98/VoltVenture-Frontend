@@ -30,12 +30,12 @@ See full details: `.planning/milestones/v1.0-ROADMAP.md`
 **Goal:** User can view and edit their profile, manage app settings, and configure notification preferences.
 **Mode:** mvp
 **Requirements:** PROF-01, PROF-02, PROF-03, PROF-04
-**Plans:** TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — Profile screen (view name, photo, email, member since)
-- [ ] 05-02-PLAN.md — Edit Profile screen (name, photo picker)
-- [ ] 05-03-PLAN.md — Settings + Preferences screens (units, map style, language, notification toggles)
+- [ ] 05-01-PLAN.md — Profile screen slice: packages + userService + ProfileContext + navigation types + AccountNavigator extension + AccountScreen header + ProfileScreen
+- [ ] 05-02-PLAN.md — Edit Profile screen slice: EditProfileScreen with expo-image-picker and name editing
+- [ ] 05-03-PLAN.md — Settings + Preferences screens slice: SettingsScreen (AsyncStorage units/map/language) + PreferencesScreen (AsyncStorage notification toggles)
 
 **Success Criteria:**
 1. User can tap their avatar/name in the Account tab to open a Profile screen
