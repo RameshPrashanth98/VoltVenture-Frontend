@@ -33,9 +33,15 @@ See full details: `.planning/milestones/v1.0-ROADMAP.md`
 **Plans:** 3 plans
 
 Plans:
+
+**Wave 1**
 - [ ] 05-01-PLAN.md — Profile screen slice: packages + userService + ProfileContext + navigation types + AccountNavigator extension + AccountScreen header + ProfileScreen
+
+**Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 05-02-PLAN.md — Edit Profile screen slice: EditProfileScreen with expo-image-picker and name editing
 - [ ] 05-03-PLAN.md — Settings + Preferences screens slice: SettingsScreen (AsyncStorage units/map/language) + PreferencesScreen (AsyncStorage notification toggles)
+
+Cross-cutting constraints: ProfileContext (in-memory profile state) must be initialized in Wave 1 before any Wave 2 screen reads or writes profile data.
 
 **Success Criteria:**
 1. User can tap their avatar/name in the Account tab to open a Profile screen
@@ -135,7 +141,7 @@ Plans:
 | 2 | Bike Discovery | v1.0 | 4 | Complete | 2026-08-18 |
 | 3 | Booking & Unlock | v1.0 | 3 | Complete | 2026-08-18 |
 | 4 | Active Ride & Payment | v1.0 | 3 | Complete | 2026-08-18 |
-| 5 | Account & Profile | v1.1 | 3 | Not started | — |
+| 5 | Account & Profile | v1.1 | 3 | Planned | — |
 | 6 | Security & Verification | v1.1 | 3 | Not started | — |
 | 7 | Navigation & Ride Extras | v1.1 | 3 | Not started | — |
 | 8 | Payments & Rewards | v1.1 | 3 | Not started | — |
