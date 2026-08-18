@@ -1,5 +1,22 @@
 # VoltVenture
 
+## Current Milestone: v1.1 Complete Frontend
+
+**Goal:** Implement all remaining Volt Venture design system screens as frontend-only interfaces.
+
+**Target features:**
+- Auth/Security: LoginSecurity, IdScan, FacialScan, SecurityDeposit
+- Payments: AddPaymentMethod, SelectPaymentMethod
+- Navigation: NavigateToBike, WalkingDirections
+- Ride extras: SafetyMount, EndRideFindCharging, RidingToCharging
+- Post-ride: RideHistoryStats
+- Account: Profile, EditProfile, Settings, Preferences
+- Rewards: VoltCoinsRewards
+- Content/Legal: Support, PrivacyPolicy, TermsOfService
+- Discovery: CafeDetail, CuratedRoutes, DiscoverVipHubs
+
+---
+
 ## What This Is
 
 VoltVenture is a mobile e-bike rental app for tourists. It lets travelers find nearby available electric bikes, book and unlock them directly from their phone, ride with live cost tracking, and pay in-app — making short-range exploration frictionless for visitors who don't know the area.
@@ -24,16 +41,31 @@ A tourist can go from opening the app to riding an e-bike in under 2 minutes.
 - User can view ride history and past receipts — v1.0
 - User can view payment methods (mock Visa 4242) — v1.0
 
-### Active (v1.1 — Backend Integration)
+### Active (v1.1)
 
-- [ ] Real backend API integration (auth, bikes, bookings, rides, payments)
-- [ ] Real Google / Apple OAuth (getMockGoogleToken replaced)
-- [ ] Real Bluetooth unlock (BLE library integration)
-- [ ] Persistent ride history (database-backed)
-- [ ] Real payment processing (Stripe or equivalent)
-- [ ] Real payment method management (add/remove cards)
-- [ ] Google Maps API key for device builds
-- [ ] Font loading: Manjari (display) + Inter (body)
+- [ ] LoginSecurity screen — 2FA toggle, active sessions
+- [ ] IdScan screen — identity document scan (mock)
+- [ ] FacialScan screen — biometric verification (mock)
+- [ ] SecurityDeposit screen — deposit status view
+- [ ] AddPaymentMethod screen — card/wallet entry form
+- [ ] SelectPaymentMethod screen — payment selection during checkout
+- [ ] NavigateToBike screen — map directions to bike
+- [ ] WalkingDirections screen — step-by-step walking nav
+- [ ] SafetyMount screen — safety instructions before ride
+- [ ] EndRideFindCharging screen — nearby charging at ride end
+- [ ] RidingToCharging screen — navigation to charger
+- [ ] RideHistoryStats screen — aggregate stats (distance, spend, CO2)
+- [ ] Profile screen — view name, photo, email
+- [ ] EditProfile screen — edit name, photo
+- [ ] Settings screen — units, map style, language
+- [ ] Preferences screen — notification toggles
+- [ ] VoltCoinsRewards screen — balance, history, rewards
+- [ ] Support screen — help center
+- [ ] PrivacyPolicy screen — policy content
+- [ ] TermsOfService screen — terms content
+- [ ] CafeDetail screen — nearby café/POI detail
+- [ ] CuratedRoutes screen — browse e-bike routes
+- [ ] DiscoverVipHubs screen — VIP hub discovery
 
 ### Out of Scope
 
@@ -94,4 +126,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-08-18 after v1.0 milestone*
+*Last updated: 2026-08-18 — v1.1 milestone started*
