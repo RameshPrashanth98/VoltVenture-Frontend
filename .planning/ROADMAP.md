@@ -54,6 +54,12 @@ Plans:
 **Goal:** User can reserve a bike, scan its QR code or use Bluetooth to unlock it, and see a confirmation — completing the path from selection to unlocked bike.
 **Mode:** mvp
 **Requirements:** BOOK-01, BOOK-02, BOOK-03, BOOK-04
+**Plans:** 3 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — BookingStack Foundation + BookingConfirmation (service, navigation types, modal stack, full confirmation screen with countdown and unlock CTAs, MapScreen onReserve wired)
+- [ ] 03-02-PLAN.md — QR Scanner Screen (expo-camera install, full-screen CameraView, viewfinder overlay, permission handling, UnlockSuccess screen)
+- [ ] 03-03-PLAN.md — BLE Unlock Screen + Expiry (3-state BLE mock auto-advance, reservation expiry Snackbar + dismiss)
 
 **Success Criteria**:
 1. User can tap "Reserve" on a bike and complete the booking flow
@@ -87,5 +93,5 @@ Plans:
 |---|-------|--------|--------------|
 | 1 | Foundation & Authentication | Planned | AUTH-01–05 |
 | 2 | Bike Discovery | Planned | DISC-01–04 |
-| 3 | Booking & Unlock | Pending | BOOK-01–04 |
+| 3 | Booking & Unlock | Planned | BOOK-01–04 |
 | 4 | Active Ride & Payment | Pending | RIDE-01–04, PAY-01–04 |
