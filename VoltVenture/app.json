@@ -35,7 +35,8 @@
       ],
       "expo-apple-authentication",
       ["react-native-maps", { "androidGoogleMapsApiKey": "YOUR_ANDROID_MAPS_KEY_HERE" }],
-      ["expo-location", { "locationWhenInUsePermission": "Allow VoltVenture to show nearby e-bikes on the map." }]
+      ["expo-location", { "locationWhenInUsePermission": "Allow VoltVenture to show nearby e-bikes on the map." }],
+      ["expo-camera", { "cameraPermission": "Allow VoltVenture to access your camera to scan bike QR codes." }]
     ]
   }
 }
