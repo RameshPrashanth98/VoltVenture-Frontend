@@ -24,6 +24,10 @@ export type AccountStackParamList = {
   AccountMain: undefined;
   RideHistory: undefined;
   PaymentMethods: undefined;
+  Profile: undefined;
+  EditProfile: undefined;
+  Settings: undefined;
+  Preferences: undefined;
 };
 
 export type AppTabParamList = {
