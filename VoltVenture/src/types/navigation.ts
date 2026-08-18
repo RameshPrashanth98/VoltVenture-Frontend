@@ -28,6 +28,10 @@ export type AccountStackParamList = {
   EditProfile: undefined;
   Settings: undefined;
   Preferences: undefined;
+  LoginSecurity: undefined;
+  IdScan: { onVerified: () => void };
+  FacialScan: { onVerified: () => void };
+  SecurityDeposit: undefined;
 };
 
 export type AppTabParamList = {

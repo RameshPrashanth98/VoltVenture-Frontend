@@ -123,6 +123,21 @@ export default function AccountScreen({ navigation }: Props) {
           <MaterialCommunityIcons name="chevron-right" size={20} color={DSColors.textSecondary} />
         </TouchableOpacity>
 
+        {/* Security row */}
+        <TouchableOpacity
+          style={styles.menuRow}
+          onPress={() => navigation.navigate('LoginSecurity')}
+          activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityLabel="Security"
+        >
+          <View style={styles.menuRowLeft}>
+            <MaterialCommunityIcons name="shield-lock" size={20} color={DSColors.textPrimary} />
+            <Text style={styles.menuRowText}>Security</Text>
+          </View>
+          <MaterialCommunityIcons name="chevron-right" size={20} color={DSColors.textSecondary} />
+        </TouchableOpacity>
+
         {/* Log Out row */}
         <TouchableOpacity
           style={styles.logoutRow}
