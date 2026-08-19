@@ -15,6 +15,7 @@ export type AuthStackParamList = {
 };
 
 export type RideStackParamList = {
+  SafetyMount: { bike: Bike };
   ActiveRide: { bike: Bike };
   PaymentSummary: { rideSummary: RideSummary };
   RideReceipt: { paymentResult: PaymentResult; rideSummary: RideSummary };
@@ -46,11 +47,23 @@ export type BookingStackParamList = {
   UnlockSuccess: { bike: Bike };
 };
 
+export type NavStackParamList = {
+  NavigateToBike: { bike: Bike };
+  WalkingDirections: { bike: Bike };
+};
+
+export type ChargeStackParamList = {
+  EndRideFindCharging: undefined;
+  RidingToCharging: { chargerName: string; location: { latitude: number; longitude: number } };
+};
+
 export type RootStackParamList = {
   AuthStack: NavigatorScreenParams<AuthStackParamList>;
   AppTabs: NavigatorScreenParams<AppTabParamList>;
   BookingStack: NavigatorScreenParams<BookingStackParamList>;
   RideStack: NavigatorScreenParams<RideStackParamList>;
+  NavStack: NavigatorScreenParams<NavStackParamList>;
+  ChargeStack: NavigatorScreenParams<ChargeStackParamList>;
 };
 
 export type AuthNavProp = StackNavigationProp<AuthStackParamList>;
