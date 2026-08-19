@@ -40,12 +40,13 @@ Declared values (React Native dp, multiples of 4):
 | xl | 32dp | Screen top spacing (below safe area on non-map screens) |
 | 2xl | 48dp | Receipt icon top margin, hero spacing |
 | 3xl | 64dp | Not used in this phase |
+| gap-12 | 12dp | Row gap for step lists and checklist rows (4×3, valid multiple) |
 
 Exceptions:
 - ETA card top offset: `insets.top + 8dp` (follows ActiveRideScreen overlay pattern)
 - End-ride / "Start Ride" button bottom offset: `insets.bottom + 16dp`
 - Custom header height: fixed at 56dp (back icon 24dp + centred title + 40dp spacer)
-- Touch targets: minimum 44dp tap area for checklist rows and charger info card CTA
+- Touch targets: minimum 44dp tap area for checklist rows and charger info card CTA — iOS HIG / WCAG accessibility requirement.
 
 ---
 
@@ -126,7 +127,7 @@ Border token: `#EBEBEB` — DSColors.border — used for checklist item separato
 [ [View Turn-by-Turn]  (secondary button) ]
 ```
 - Card: `backgroundColor: 'rgba(15,15,15,0.85)'`, `borderRadius: 16`, `paddingHorizontal: 24`, `paddingVertical: 16`
-- "View Turn-by-Turn" button: `TouchableOpacity`, `borderWidth: 1`, `borderColor: 'rgba(255,255,255,0.3)'`, `borderRadius: 8`, `paddingVertical: 10`, label 15dp / 500 / white
+- "View Turn-by-Turn" button: `TouchableOpacity`, `borderWidth: 1`, `borderColor: 'rgba(255,255,255,0.3)'`, `borderRadius: 8`, `paddingVertical: 8`, label 15dp / 400 / white
 - On press: `navigation.push('WalkingDirections', { bike })`
 
 **Map markers:**
@@ -166,6 +167,7 @@ Border token: `#EBEBEB` — DSColors.border — used for checklist item separato
 - `paddingHorizontal: 16`, `paddingVertical: 12`
 - `borderBottomWidth: 1`, `borderBottomColor: DSColors.border`
 - Back press: `navigation.goBack()` (returns to NavigateToBike)
+- Back arrow button: `accessibilityLabel="Go back"`
 
 **Step row anatomy:**
 ```
@@ -214,6 +216,7 @@ Border token: `#EBEBEB` — DSColors.border — used for checklist item separato
 ```
 - Same header pattern as LoginSecurityScreen / WalkingDirections
 - Back press: `navigation.goBack()` (returns to UnlockSuccessScreen — pops RideStack back)
+- Back arrow button: `accessibilityLabel="Go back"`
 
 **Section subtitle (below header, inside scroll):**
 - "Complete all checks before starting your ride"
@@ -301,7 +304,7 @@ Border token: `#EBEBEB` — DSColors.border — used for checklist item separato
 
 **Close button (top-left):**
 - `MaterialCommunityIcons` `close` icon, 24dp, `textPrimary`
-- Wrapped in `TouchableOpacity`, 44dp touch target
+- Wrapped in `TouchableOpacity`, 44dp touch target, `accessibilityLabel="Close"`
 - `backgroundColor: 'rgba(255,255,255,0.9)'`, `borderRadius: 20`, padding 8dp
 - On press: dismiss ChargeStack (`navigation.getParent()?.goBack()`)
 
@@ -377,7 +380,7 @@ Border token: `#EBEBEB` — DSColors.border — used for checklist item separato
 - Component: `TouchableOpacity`
 - Label: "Find a Charging Station"
 - Style: `marginTop: 12`, `paddingVertical: 12`, `alignItems: 'center'`
-- Label style: 15dp / 500 / `textSecondary` (ghost / text-only — lowest visual weight)
+- Label style: 15dp / 400 / `textSecondary` (ghost / text-only — lowest visual weight)
 - On press: `navigation.getParent()?.goBack()` then open `ChargeStack` modal
 - Implementation note: use `setTimeout(() => navigation.navigate('ChargeStack', { screen: 'EndRideFindCharging' }), 300)` after dismissing RideStack to allow modal dismissal animation to complete
 
