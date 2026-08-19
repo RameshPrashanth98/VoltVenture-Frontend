@@ -6,6 +6,8 @@ import AuthStack from './AuthStack';
 import AppTabs from './AppTabs';
 import BookingNavigator from './BookingNavigator';
 import RideNavigator from './RideNavigator';
+import NavNavigator from './NavNavigator';
+import ChargeNavigator from './ChargeNavigator';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -38,6 +40,16 @@ export default function RootNavigator() {
       <Stack.Screen
         name="RideStack"
         component={RideNavigator}
+        options={{ presentation: 'modal', headerShown: false }}
+      />
+      <Stack.Screen
+        name="NavStack"
+        component={NavNavigator}
+        options={{ presentation: 'modal', headerShown: false }}
+      />
+      <Stack.Screen
+        name="ChargeStack"
+        component={ChargeNavigator}
         options={{ presentation: 'modal', headerShown: false }}
       />
     </Stack.Navigator>
