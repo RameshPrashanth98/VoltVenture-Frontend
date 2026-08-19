@@ -28,3 +28,35 @@ Full tourist e-bike rental frontend — open the app, find a bike, book it, unlo
 - UAT skipped (Expo SDK 57 requires emulator or EAS dev build — Expo Go incompatible)
 - All backend services are mocked — real API integration is next milestone
 - Fonts (Manjari/Inter), real OAuth, Google Maps API key, BLE library, card management — all deferred to backend integration phase
+
+---
+
+## v1.1 Complete Frontend — Shipped 2026-08-19
+
+**Phases:** 5–9 | **Plans:** 15 | **Timeline:** 2 days (2026-08-18 → 2026-08-19)
+**Commits:** 60 | **LOC:** ~9,214 TypeScript total (~4,824 added) | **TypeScript errors:** 0
+
+### Delivered
+
+All remaining Volt Venture design system screens implemented as frontend-only interfaces. App expanded from core rental loop to full tourist experience: account management, security verification, navigation to bikes and chargers, payments and rewards, and discovery of cafés/routes/VIP hubs with support and legal content.
+
+### Key Accomplishments
+
+1. Account & Profile — ProfileContext (React Context), ProfileScreen + EditProfileScreen (expo-image-picker), SettingsScreen + PreferencesScreen (AsyncStorage persistence)
+2. Security & Verification — LoginSecurity hub (2FA toggle, session list, verification badge pills), IdScanScreen (3-state capture machine), FacialScanScreen, SecurityDepositScreen
+3. Navigation & Ride Extras — NavigateToBikeScreen + WalkingDirectionsScreen (NavStack modal), SafetyMountScreen (checklist gate before ride start), EndRideFindCharging + RidingToCharging (ChargeStack modal)
+4. Payments & Rewards — AddPaymentMethodScreen (card form, last4 storage only), SelectPaymentMethodScreen, VoltCoinsRewardsScreen (balance + earn history + rewards catalog), RideHistoryStats 2×2 header
+5. Discovery & Content — Discover tab (AppTabs) with CafeMarker + CafeDetailSheet on MapScreen, CuratedRoutesScreen, VipHubsScreen (split map+list), SupportScreen FAQ accordion, PrivacyPolicy + TermsOfService in-app, NavigateToPoiScreen
+
+### Archive
+
+- `.planning/milestones/v1.1-ROADMAP.md` — full phase details and decisions
+- `.planning/milestones/v1.1-REQUIREMENTS.md` — all 23 requirements with outcomes
+
+### Known Deferred Items at Close
+
+- UAT (all phases): Expo SDK 57 not compatible with Expo Go; emulator required — UAT skipped again
+- All backend services remain mocked (API integration is v2.0)
+- Real camera/biometric: IdScan and FacialScan are mock flows (no OCR, no liveness detection)
+- Real routing: NavigateToBike, WalkingDirections, NavigateToPoi use static mock data
+- Real rewards redemption: VoltCoins display only, no real earn/redeem

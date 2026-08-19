@@ -2,15 +2,15 @@
 
 ## Milestones
 
-- **v1.0 MVP** — Phases 1-4 (shipped 2026-08-18)
-- **v1.1 Complete Frontend** — Phases 5-9 (in progress)
+- ✅ **v1.0 MVP** — Phases 1–4 (shipped 2026-08-18)
+- ✅ **v1.1 Complete Frontend** — Phases 5–9 (shipped 2026-08-19)
 
 ---
 
 ## Phases
 
 <details>
-<summary>v1.0 MVP (Phases 1-4) — SHIPPED 2026-08-18</summary>
+<summary>✅ v1.0 MVP (Phases 1–4) — SHIPPED 2026-08-18</summary>
 
 - [x] Phase 1: Foundation & Authentication (6 plans) — completed 2026-08-18
 - [x] Phase 2: Bike Discovery (4 plans) — completed 2026-08-18
@@ -21,131 +21,18 @@ See full details: `.planning/milestones/v1.0-ROADMAP.md`
 
 </details>
 
-### v1.1 Complete Frontend (In Progress)
+<details>
+<summary>✅ v1.1 Complete Frontend (Phases 5–9) — SHIPPED 2026-08-19</summary>
 
----
+- [x] Phase 5: Account & Profile (3 plans) — completed 2026-08-19
+- [x] Phase 6: Security & Verification (3 plans) — completed 2026-08-19
+- [x] Phase 7: Navigation & Ride Extras (3 plans) — completed 2026-08-19
+- [x] Phase 8: Payments & Rewards (3 plans) — completed 2026-08-19
+- [x] Phase 9: Discovery & Content (3 plans) — completed 2026-08-19
 
-### Phase 5: Account & Profile
+See full details: `.planning/milestones/v1.1-ROADMAP.md`
 
-**Goal:** User can view and edit their profile, manage app settings, and configure notification preferences.
-**Mode:** mvp
-**Requirements:** PROF-01, PROF-02, PROF-03, PROF-04
-**Plans:** 3 plans
-
-Plans:
-
-**Wave 1**
-- [ ] 05-01-PLAN.md — Profile screen slice: packages + userService + ProfileContext + navigation types + AccountNavigator extension + AccountScreen header + ProfileScreen
-
-**Wave 2** *(blocked on Wave 1 completion)*
-- [ ] 05-02-PLAN.md — Edit Profile screen slice: EditProfileScreen with expo-image-picker and name editing
-- [ ] 05-03-PLAN.md — Settings + Preferences screens slice: SettingsScreen (AsyncStorage units/map/language) + PreferencesScreen (AsyncStorage notification toggles)
-
-Cross-cutting constraints: ProfileContext (in-memory profile state) must be initialized in Wave 1 before any Wave 2 screen reads or writes profile data.
-
-**Success Criteria:**
-1. User can tap their avatar/name in the Account tab to open a Profile screen
-2. User can edit their display name and pick a profile photo (mock)
-3. User can change app settings (distance units, map style, language preference)
-4. User can toggle notification categories on/off
-
----
-
-### Phase 6: Security & Verification
-
-**Goal:** User can access security settings, complete identity and biometric verification flows, and view their security deposit.
-**Mode:** mvp
-**Requirements:** SEC-01, SEC-02, SEC-03, SEC-04
-**Plans:** 3 plans
-
-Plans:
-
-**Wave 1**
-- [ ] 06-01-PLAN.md — Navigation types + AccountNavigator (4 new routes) + AccountScreen Security row + LoginSecurityScreen (2FA toggle, session list, verification rows with badges, SecurityDeposit nav row)
-
-**Wave 2** *(blocked on Wave 1 completion)*
-- [ ] 06-02-PLAN.md — IdScanScreen: landscape viewfinder mock, corner brackets, 3-state capture machine, "Identity Verified" success state, onVerified callback
-- [ ] 06-03-PLAN.md — FacialScanScreen (oval viewfinder, "Face Verified" success) + SecurityDepositScreen ($150.00 status card, Request Refund CTA with disabled state + Snackbar)
-
-**Success Criteria:**
-1. User can enable/disable two-factor authentication from settings
-2. User can scan an ID document and see a mock verified result
-3. User can complete a facial scan flow and see a biometric confirmed screen
-4. User can view their security deposit amount and estimated refund date
-
----
-
-### Phase 7: Navigation & Ride Extras
-
-**Goal:** User can navigate to a selected bike on foot, see safety instructions before mounting, and locate charging stations during and after a ride.
-**Mode:** mvp
-**Requirements:** NAV-01, NAV-02, RIDE-05, RIDE-06, RIDE-07
-**Plans:** 3 plans
-
-Plans:
-
-**Wave 1**
-- [ ] 07-01-PLAN.md — Navigation types (NavStackParamList + ChargeStackParamList + SafetyMount in RideStack) + NavNavigator + RootNavigator (NavStack + ChargeStack modal registration) + NavigateToBikeScreen (map + polyline + ETA card) + WalkingDirectionsScreen (5-step FlatList) + BikeDetailSheet "Get Directions" button + MapScreen onGetDirections callback
-
-**Wave 2** *(blocked on Wave 1 completion)*
-- [ ] 07-02-PLAN.md — SafetyMountScreen (4-item checklist + disabled PrimaryButton) + RideNavigator (SafetyMount as first screen) + UnlockSuccessScreen navigation update (ActiveRide → SafetyMount)
-- [ ] 07-03-PLAN.md — ChargeNavigator + EndRideFindChargingScreen (charger pins + info card + Navigate Here) + RidingToChargingScreen (map + polyline + ETA card) + RideReceiptScreen "Find a Charging Station" CTA
-
-**Success Criteria:**
-1. Tapping "Get Directions" on a bike opens a map showing the walking route and ETA
-2. User can view turn-by-turn walking directions to the bike
-3. Before starting a ride, user sees a safety checklist and confirms readiness
-4. After ending a ride, user can see nearby charging stations on a map
-5. User can navigate to a charging station with a live map route
-
----
-
-### Phase 8: Payments & Rewards
-
-**Goal:** User can add a payment method, select a payment method at checkout, view their VoltCoins rewards balance, and see aggregate ride statistics.
-**Mode:** mvp
-**Requirements:** PAY-05, PAY-06, REW-01, HIST-01
-**Plans:** 3 plans
-
-Plans:
-
-**Wave 1**
-- [ ] 08-01-PLAN.md — Service/type foundation: SavedCard type + paymentService extension (getSavedCards/addCard/setDefault/getDefault) + navigation param lists (AddPaymentMethod, VoltCoins, SelectPaymentMethod routes) + AccountNavigator + RideNavigator screen registrations
-
-**Wave 2** *(blocked on Wave 1 completion — parallel execution)*
-- [ ] 08-02-PLAN.md — Payment screens slice: AddPaymentMethodScreen (card form + masked input + validation + addCard) + SelectPaymentMethodScreen (card list + setDefault + goBack) + PaymentMethodsScreen update (getSavedCards + navigate to Add) + PaymentSummaryScreen update (getDefault via useFocusEffect + Change CTA)
-- [ ] 08-03-PLAN.md — Rewards & stats slice: VoltCoinsRewardsScreen (balance + earn history + static rewards catalog + Snackbar) + AccountScreen VoltCoins Rewards row + RideHistoryScreen stats header (4-tile 2×2 grid via ListHeaderComponent)
-
-**Success Criteria:**
-1. User can enter card details on an Add Payment Method screen (mock save)
-2. User can select from saved payment methods before checkout
-3. User can view their VoltCoins balance and a list of past earn events
-4. User can see aggregate ride stats: total rides, km ridden, total spend, CO2 saved
-
----
-
-### Phase 9: Discovery & Content
-
-**Goal:** User can explore nearby cafés and POIs, browse curated e-bike routes, discover VIP hubs, and access support and legal content.
-**Mode:** mvp
-**Requirements:** DISC-05, DISC-06, DISC-07, CONT-01, CONT-02, CONT-03
-**Plans:** 3 plans
-
-Plans:
-
-**Wave 1**
-- [ ] 09-01-PLAN.md — Navigation foundation + café map integration: DiscoverStackParamList + NavigateToPoi types + AppTabs Discover tab + DiscoverNavigator + NavNavigator update + CafeMarker component + CafeDetailSheet component + MapScreen café data/markers/sheet wiring
-
-**Wave 2** *(blocked on Wave 1 completion — parallel execution)*
-- [ ] 09-02-PLAN.md — Discover screens: DiscoverScreen (menu rows) + CuratedRoutesScreen (FlatList + difficulty badges + Snackbar) + VipHubsScreen (split map+list + inline expand + Get Directions)
-- [ ] 09-03-PLAN.md — NavigateToPoiScreen (NavigateToBike mirror — no Turn-by-Turn) + SupportScreen (List.Accordion FAQ + Contact Snackbar) + PrivacyPolicyScreen + TermsOfServiceScreen + DiscoverNavigator fully wired
-
-**Success Criteria:**
-1. Tapping a café pin on the map opens a detail sheet with name, hours, and directions
-2. User can browse a list of curated e-bike routes with distance and difficulty labels
-3. User can discover VIP hubs on a map and tap to see hub details
-4. User can read FAQ articles in the support screen (accordion, no search)
-5. Privacy Policy and Terms of Service are readable in-app (no external browser required)
+</details>
 
 ---
 
@@ -157,8 +44,8 @@ Plans:
 | 2 | Bike Discovery | v1.0 | 4 | Complete | 2026-08-18 |
 | 3 | Booking & Unlock | v1.0 | 3 | Complete | 2026-08-18 |
 | 4 | Active Ride & Payment | v1.0 | 3 | Complete | 2026-08-18 |
-| 5 | Account & Profile | v1.1 | 3 | Planned | — |
-| 6 | Security & Verification | v1.1 | 3 | Planned | — |
-| 7 | Navigation & Ride Extras | v1.1 | 3 | Planned | — |
-| 8 | Payments & Rewards | v1.1 | 3 | Planned | — |
-| 9 | Discovery & Content | v1.1 | 3 | Planned | — |
+| 5 | Account & Profile | v1.1 | 3 | Complete | 2026-08-19 |
+| 6 | Security & Verification | v1.1 | 3 | Complete | 2026-08-19 |
+| 7 | Navigation & Ride Extras | v1.1 | 3 | Complete | 2026-08-19 |
+| 8 | Payments & Rewards | v1.1 | 3 | Complete | 2026-08-19 |
+| 9 | Discovery & Content | v1.1 | 3 | Complete | 2026-08-19 |
