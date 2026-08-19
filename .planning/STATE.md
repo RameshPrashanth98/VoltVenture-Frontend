@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Complete Frontend
 status: executing
-stopped_at: Completed 08-03 — VoltCoins rewards screen + ride history stats
-last_updated: "2026-08-19T12:10:00Z"
+stopped_at: Phase 8 verified — all 3 plans complete, automated checks pass
+last_updated: "2026-08-19T12:30:00Z"
 progress:
   total_phases: 5
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 12
   completed_plans: 12
-  percent: 75
+  percent: 80
 ---
 
 # VoltVenture — Project State
@@ -24,9 +24,9 @@ See: .planning/PROJECT.md (updated 2026-08-18)
 
 ## Current Position
 
-Phase: 8 — Payments & Rewards ◆ EXECUTING
+Phase: 8 — Payments & Rewards ◆ VERIFIED
 Plans: 3/3 complete (08-01, 08-02, 08-03)
-Status: Executing — Wave 2 complete (08-02 and 08-03 both done)
+Status: Verified — all automated checks pass; human UAT pending (emulator required)
 
 ## Completed Phases (v1.0)
 
@@ -38,12 +38,24 @@ Status: Executing — Wave 2 complete (08-02 and 08-03 both done)
 ## Completed Phases (v1.1)
 
 - Phase 5: Account & Profile (3 plans — complete 2026-08-18)
+- Phase 6: Security & Verification (see phases/06-*)
+- Phase 7: Navigation & Ride Extras (3 plans — complete 2026-08-19)
+- Phase 8: Payments & Rewards (3 plans — complete 2026-08-19)
 
 ## Session Continuity
 
-Last session: 2026-08-19T12:10:00Z
-Stopped at: Completed 08-03 — VoltCoins rewards screen + account entry + ride history stats
-Resume: None — Phase 8 execution complete, run /gsd:verify-work 8
+Last session: 2026-08-19T12:30:00Z
+Stopped at: Phase 8 verified — automated checks pass, UAT requires emulator
+Resume: /gsd:progress to check next phase
+
+## Phase 8 Deliverables
+
+- PAY-05: AddPaymentMethodScreen — 4-field card form with touched validation, card masking, paymentService.addCard()
+- PAY-06: SelectPaymentMethodScreen — card picker with setDefault+goBack; PaymentSummaryScreen Change CTA + useFocusEffect
+- PAY-05/06: PaymentMethodsScreen — dynamic list from getSavedCards(), navigate to AddPaymentMethod
+- REW-01: VoltCoinsRewardsScreen — live balance (costEur×10), earn history, 4 reward cards, Snackbar stub
+- REW-01: AccountScreen — VoltCoins Rewards row between Payment Methods and Settings
+- HIST-01: RideHistoryScreen — 2×2 stats header via ListHeaderComponent (Total Rides, Distance, Total Spend, CO2 Saved)
 
 ## Phase 7 Deliverables
 

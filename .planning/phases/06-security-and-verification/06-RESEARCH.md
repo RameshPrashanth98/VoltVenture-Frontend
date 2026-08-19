@@ -612,7 +612,7 @@ All actionable directives extracted from `CLAUDE.md` and the project's establish
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Verification callback implementation preference**
    - What we know: UI-SPEC grants discretion between (a) navigation params with function, (b) `navigation.addListener('focus')` + ref, (c) minimal SecurityContext.
