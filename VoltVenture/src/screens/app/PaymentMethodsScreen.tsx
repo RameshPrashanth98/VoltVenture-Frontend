@@ -1,23 +1,27 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Snackbar } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import type { AccountStackParamList } from '../../types/navigation';
 import { DSColors } from '../../theme/theme';
+import { paymentService } from '../../services/paymentService';
+import type { SavedCard } from '../../types/payment';
 
 type Props = StackScreenProps<AccountStackParamList, 'PaymentMethods'>;
 
 export default function PaymentMethodsScreen({ navigation }: Props) {
-  const [snackbarVisible, setSnackbarVisible] = useState(false);
+  const [cards, setCards] = useState<SavedCard[]>(() => paymentService.getSavedCards());
 
-  return (
-    <SafeAreaView style={styles.safeArea} edges={['bottom']}>
-      {/* Saved Methods section */}
-      <Text style={styles.sectionHeader}>Saved Methods</Text>
+  useFocusEffect(
+    useCallback(() => {
+      setCards(paymentService.getSavedCards());
+    }, [])
+  );
 
-      {/* Saved card row */}
+  function renderCard({ item }: { item: SavedCard }) {
+    return (
       <View style={styles.cardRow}>
         <View style={styles.cardRowLeft}>
           <MaterialCommunityIcons
@@ -26,16 +30,34 @@ export default function PaymentMethodsScreen({ navigation }: Props) {
             color={DSColors.textPrimary}
           />
           <View>
-            <Text style={styles.cardName}>Visa {'\u2022\u2022\u2022\u2022'} 4242</Text>
-            <Text style={styles.cardExpiry}>Expires 12/26</Text>
+            <Text style={styles.cardName}>
+              {item.brand} {'\u2022\u2022\u2022\u2022'} {item.last4}
+            </Text>
+            <Text style={styles.cardExpiry}>Expires {item.expiry}</Text>
           </View>
         </View>
-        <MaterialCommunityIcons
-          name="check-circle"
-          size={18}
-          color={DSColors.primary}
-        />
+        {item.isDefault && (
+          <MaterialCommunityIcons
+            name="check-circle"
+            size={18}
+            color={DSColors.primary}
+          />
+        )}
       </View>
+    );
+  }
+
+  return (
+    <SafeAreaView style={styles.safeArea} edges={['bottom']}>
+      {/* Saved Methods section */}
+      <Text style={styles.sectionHeader}>Saved Methods</Text>
+
+      <FlatList
+        data={cards}
+        keyExtractor={(item) => item.id}
+        renderItem={renderCard}
+        scrollEnabled={false}
+      />
 
       {/* Separator */}
       <View style={styles.divider} />
@@ -46,7 +68,7 @@ export default function PaymentMethodsScreen({ navigation }: Props) {
       {/* Add Payment Method row */}
       <TouchableOpacity
         style={styles.addRow}
-        onPress={() => setSnackbarVisible(true)}
+        onPress={() => navigation.navigate('AddPaymentMethod')}
         activeOpacity={0.7}
       >
         <View style={styles.addRowLeft}>
@@ -63,14 +85,6 @@ export default function PaymentMethodsScreen({ navigation }: Props) {
           color={DSColors.textSecondary}
         />
       </TouchableOpacity>
-
-      <Snackbar
-        visible={snackbarVisible}
-        onDismiss={() => setSnackbarVisible(false)}
-        duration={2500}
-      >
-        Payment method management coming soon
-      </Snackbar>
     </SafeAreaView>
   );
 }

@@ -2,11 +2,13 @@ import React, { useState, useCallback } from 'react';
 import {
   View,
   Text,
+  TouchableOpacity,
   ScrollView,
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useFocusEffect } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { StackScreenProps } from '@react-navigation/stack';
 import type { RideStackParamList } from '../../types/navigation';
@@ -22,6 +24,13 @@ export default function PaymentSummaryScreen({ route, navigation }: Props) {
   const { rideSummary } = route.params;
   const insets = useSafeAreaInsets();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [activeCard, setActiveCard] = useState(() => paymentService.getDefault());
+
+  useFocusEffect(
+    useCallback(() => {
+      setActiveCard(paymentService.getDefault());
+    }, [])
+  );
 
   // Derived display values
   const baseFare = 0.50;
@@ -29,7 +38,7 @@ export default function PaymentSummaryScreen({ route, navigation }: Props) {
   const durationMin = Math.floor(rideSummary.durationMin);
   const durationSec = Math.round((rideSummary.durationMin - durationMin) * 60);
   const durationDisplay =
-    String(durationMin).padStart(2, '0') + ':' + String(durationSec).padStart(2, '0');
+    String(durationMin).padStart(2, '0') + ':' + String(durationSec).padStart(2, '00');
 
   const handleConfirmPay = useCallback(async () => {
     setIsProcessing(true);
@@ -107,9 +116,15 @@ export default function PaymentSummaryScreen({ route, navigation }: Props) {
                 size={20}
                 color={DSColors.textSecondary}
               />
-              <Text style={styles.cardLabel}>Visa •••• 4242</Text>
+              <Text style={styles.cardLabel}>
+                {activeCard
+                  ? `${activeCard.brand} \u2022\u2022\u2022\u2022 ${activeCard.last4}`
+                  : 'No card selected'}
+              </Text>
             </View>
-            <Text style={styles.savedLabel}>Saved</Text>
+            <TouchableOpacity onPress={() => navigation.push('SelectPaymentMethod')}>
+              <Text style={styles.changeLink}>Change</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
@@ -214,10 +229,10 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: DSColors.textPrimary,
   },
-  savedLabel: {
+  changeLink: {
     fontSize: 13,
-    fontWeight: '400',
-    color: DSColors.textSecondary,
+    fontWeight: '500',
+    color: DSColors.primary,
   },
   ctaWrapper: {
     paddingHorizontal: 24,
