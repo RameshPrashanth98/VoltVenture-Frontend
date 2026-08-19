@@ -27,6 +27,47 @@ function formatDuration(durationMin: number): string {
 export default function RideHistoryScreen({ navigation }: Props) {
   const rides = rideService.getRideHistory();
 
+  const totalRides = rides.length;
+  const totalKm = rides.reduce((acc, r) => acc + r.distanceKm, 0);
+  const totalEur = rides.reduce((acc, r) => acc + r.costEur, 0);
+  const co2Kg = totalKm * 0.21;
+
+  const StatsHeader = (
+    <View>
+      <View style={styles.statsGrid}>
+        <View style={styles.statsTile}>
+          <View style={styles.statsTileCard}>
+            <MaterialCommunityIcons name="bike" size={22} color={DSColors.primary} />
+            <Text style={styles.statValue}>{totalRides.toString()}</Text>
+            <Text style={styles.statLabel}>Total Rides</Text>
+          </View>
+        </View>
+        <View style={styles.statsTile}>
+          <View style={styles.statsTileCard}>
+            <MaterialCommunityIcons name="map-marker-distance" size={22} color={DSColors.primary} />
+            <Text style={styles.statValue}>{totalKm.toFixed(1)} km</Text>
+            <Text style={styles.statLabel}>Distance</Text>
+          </View>
+        </View>
+        <View style={styles.statsTile}>
+          <View style={styles.statsTileCard}>
+            <MaterialCommunityIcons name="cash" size={22} color={DSColors.primary} />
+            <Text style={styles.statValue}>€{totalEur.toFixed(2)}</Text>
+            <Text style={styles.statLabel}>Total Spend</Text>
+          </View>
+        </View>
+        <View style={styles.statsTile}>
+          <View style={styles.statsTileCard}>
+            <MaterialCommunityIcons name="leaf" size={22} color={DSColors.primary} />
+            <Text style={styles.statValue}>{co2Kg.toFixed(1)} kg</Text>
+            <Text style={styles.statLabel}>CO2 Saved</Text>
+          </View>
+        </View>
+      </View>
+      <Text style={styles.rideHistoryLabel}>RIDE HISTORY</Text>
+    </View>
+  );
+
   const renderItem = ({ item }: { item: RideSummary }) => (
     <View style={styles.rideRow}>
       <View>
@@ -56,6 +97,7 @@ export default function RideHistoryScreen({ navigation }: Props) {
         data={rides}
         keyExtractor={item => item.id}
         renderItem={renderItem}
+        ListHeaderComponent={StatsHeader}
         ListEmptyComponent={ListEmptyComponent}
         ItemSeparatorComponent={ItemSeparatorComponent}
       />
@@ -107,5 +149,45 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: DSColors.border,
     marginHorizontal: 24,
+  },
+  statsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 8,
+    backgroundColor: DSColors.background,
+  },
+  statsTile: {
+    width: '50%',
+    padding: 8,
+  },
+  statsTileCard: {
+    backgroundColor: DSColors.surface,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: DSColors.border,
+    padding: 12,
+    alignItems: 'center',
+  },
+  statValue: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: DSColors.textPrimary,
+  },
+  statLabel: {
+    fontSize: 12,
+    color: DSColors.textSecondary,
+    marginTop: 4,
+  },
+  rideHistoryLabel: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: DSColors.textSecondary,
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+    paddingHorizontal: 24,
+    paddingTop: 12,
+    paddingBottom: 8,
   },
 });

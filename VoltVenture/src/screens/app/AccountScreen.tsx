@@ -108,6 +108,29 @@ export default function AccountScreen({ navigation }: Props) {
           />
         </TouchableOpacity>
 
+        {/* VoltCoins Rewards row */}
+        <TouchableOpacity
+          style={styles.menuRow}
+          onPress={() => navigation.navigate('VoltCoins')}
+          activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityLabel="VoltCoins Rewards"
+        >
+          <View style={styles.menuRowLeft}>
+            <MaterialCommunityIcons
+              name="star-circle"
+              size={20}
+              color={DSColors.textPrimary}
+            />
+            <Text style={styles.menuRowText}>VoltCoins Rewards</Text>
+          </View>
+          <MaterialCommunityIcons
+            name="chevron-right"
+            size={20}
+            color={DSColors.textSecondary}
+          />
+        </TouchableOpacity>
+
         {/* Settings row */}
         <TouchableOpacity
           style={styles.menuRow}
