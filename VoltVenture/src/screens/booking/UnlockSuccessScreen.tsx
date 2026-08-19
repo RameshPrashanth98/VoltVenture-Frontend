@@ -42,7 +42,7 @@ export default function UnlockSuccessScreen({ route, navigation }: Props) {
       {/* Start Ride CTA — navigates to RideStack/ActiveRide modal */}
       <PrimaryButton
         label="Start Ride"
-        onPress={() => navigation.getParent<any>()?.navigate('RideStack', { screen: 'ActiveRide', params: { bike } })}
+        onPress={() => navigation.getParent<any>()?.navigate('RideStack', { screen: 'SafetyMount', params: { bike } })}
       />
     </View>
   );
