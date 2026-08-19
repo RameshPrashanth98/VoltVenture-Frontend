@@ -129,18 +129,22 @@ Plans:
 **Goal:** User can explore nearby cafés and POIs, browse curated e-bike routes, discover VIP hubs, and access support and legal content.
 **Mode:** mvp
 **Requirements:** DISC-05, DISC-06, DISC-07, CONT-01, CONT-02, CONT-03
-**Plans:** TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 09-01-PLAN.md — CafeDetail screen (photo header, name, hours, distance, "Get Directions" CTA)
-- [ ] 09-02-PLAN.md — CuratedRoutes screen (route cards with distance/difficulty/highlights) + DiscoverVipHubs screen (hub cards on map + list)
-- [ ] 09-03-PLAN.md — Support screen (FAQ accordion + contact CTA) + PrivacyPolicy screen (scrollable content) + TermsOfService screen (scrollable content)
+
+**Wave 1**
+- [ ] 09-01-PLAN.md — Navigation foundation + café map integration: DiscoverStackParamList + NavigateToPoi types + AppTabs Discover tab + DiscoverNavigator + NavNavigator update + CafeMarker component + CafeDetailSheet component + MapScreen café data/markers/sheet wiring
+
+**Wave 2** *(blocked on Wave 1 completion — parallel execution)*
+- [ ] 09-02-PLAN.md — Discover screens: DiscoverScreen (menu rows) + CuratedRoutesScreen (FlatList + difficulty badges + Snackbar) + VipHubsScreen (split map+list + inline expand + Get Directions)
+- [ ] 09-03-PLAN.md — NavigateToPoiScreen (NavigateToBike mirror — no Turn-by-Turn) + SupportScreen (List.Accordion FAQ + Contact Snackbar) + PrivacyPolicyScreen + TermsOfServiceScreen + DiscoverNavigator fully wired
 
 **Success Criteria:**
 1. Tapping a café pin on the map opens a detail sheet with name, hours, and directions
 2. User can browse a list of curated e-bike routes with distance and difficulty labels
 3. User can discover VIP hubs on a map and tap to see hub details
-4. User can search and read FAQ articles in the support screen
+4. User can read FAQ articles in the support screen (accordion, no search)
 5. Privacy Policy and Terms of Service are readable in-app (no external browser required)
 
 ---
@@ -157,4 +161,4 @@ Plans:
 | 6 | Security & Verification | v1.1 | 3 | Planned | — |
 | 7 | Navigation & Ride Extras | v1.1 | 3 | Planned | — |
 | 8 | Payments & Rewards | v1.1 | 3 | Planned | — |
-| 9 | Discovery & Content | v1.1 | 3 | Not started | — |
+| 9 | Discovery & Content | v1.1 | 3 | Planned | — |
