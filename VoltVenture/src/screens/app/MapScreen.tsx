@@ -168,6 +168,11 @@ export default function MapScreen() {
               bikeDetailRef.current?.dismiss();
               navigation.navigate('BookingStack', { screen: 'BookingConfirmation', params: { bike: selectedBike } });
             }}
+          onGetDirections={() => {
+              if (!selectedBike) return;
+              bikeDetailRef.current?.dismiss();
+              navigation.navigate('NavStack', { screen: 'NavigateToBike', params: { bike: selectedBike } });
+            }}
         />
       </BottomSheetModal>
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Chip } from 'react-native-paper';
 import { BottomSheetView } from '@gorhom/bottom-sheet';
 import { DSColors, DSTypography } from '../../theme/theme';
@@ -9,9 +9,10 @@ import { Bike } from '../../types/bike';
 interface BikeDetailSheetProps {
   bike: Bike | null;
   onReserve: () => void;
+  onGetDirections: () => void;
 }
 
-export default function BikeDetailSheet({ bike, onReserve }: BikeDetailSheetProps) {
+export default function BikeDetailSheet({ bike, onReserve, onGetDirections }: BikeDetailSheetProps) {
   if (!bike) return null;
 
   return (
@@ -27,6 +28,13 @@ export default function BikeDetailSheet({ bike, onReserve }: BikeDetailSheetProp
         </Chip>
       </View>
       <PrimaryButton label="Reserve" onPress={onReserve} />
+      <TouchableOpacity
+        style={styles.getDirectionsButton}
+        onPress={onGetDirections}
+        activeOpacity={0.7}
+      >
+        <Text style={styles.getDirectionsLabel}>Get Directions</Text>
+      </TouchableOpacity>
     </BottomSheetView>
   );
 }
@@ -61,5 +69,18 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 8,
     marginBottom: 24,
+  },
+  getDirectionsButton: {
+    borderWidth: 1,
+    borderColor: DSColors.border,
+    borderRadius: 8,
+    paddingVertical: 12,
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  getDirectionsLabel: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: DSColors.textPrimary,
   },
 });
