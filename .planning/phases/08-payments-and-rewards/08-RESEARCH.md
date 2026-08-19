@@ -536,7 +536,7 @@ No high-risk assumptions. All critical facts were verified against the actual so
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **AddPaymentMethod placement in AccountNavigator: `headerShown: false` vs standard header**
    - What we know: CONTEXT.md says "use standard header" for SelectPaymentMethod. AddPaymentMethod is listed under "custom header" screens in D-13 of CONTEXT.md.

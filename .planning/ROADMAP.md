@@ -105,12 +105,16 @@ Plans:
 **Goal:** User can add a payment method, select a payment method at checkout, view their VoltCoins rewards balance, and see aggregate ride statistics.
 **Mode:** mvp
 **Requirements:** PAY-05, PAY-06, REW-01, HIST-01
-**Plans:** TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 08-01-PLAN.md — AddPaymentMethod screen (card form with number/expiry/CVV) + SelectPaymentMethod screen (list with radio selection)
-- [ ] 08-02-PLAN.md — VoltCoinsRewards screen (balance, earn history list, available rewards)
-- [ ] 08-03-PLAN.md — RideHistoryStats screen (total rides, distance, spend, CO2 saved)
+
+**Wave 1**
+- [ ] 08-01-PLAN.md — Service/type foundation: SavedCard type + paymentService extension (getSavedCards/addCard/setDefault/getDefault) + navigation param lists (AddPaymentMethod, VoltCoins, SelectPaymentMethod routes) + AccountNavigator + RideNavigator screen registrations
+
+**Wave 2** *(blocked on Wave 1 completion — parallel execution)*
+- [ ] 08-02-PLAN.md — Payment screens slice: AddPaymentMethodScreen (card form + masked input + validation + addCard) + SelectPaymentMethodScreen (card list + setDefault + goBack) + PaymentMethodsScreen update (getSavedCards + navigate to Add) + PaymentSummaryScreen update (getDefault via useFocusEffect + Change CTA)
+- [ ] 08-03-PLAN.md — Rewards & stats slice: VoltCoinsRewardsScreen (balance + earn history + static rewards catalog + Snackbar) + AccountScreen VoltCoins Rewards row + RideHistoryScreen stats header (4-tile 2×2 grid via ListHeaderComponent)
 
 **Success Criteria:**
 1. User can enter card details on an Add Payment Method screen (mock save)
@@ -152,5 +156,5 @@ Plans:
 | 5 | Account & Profile | v1.1 | 3 | Planned | — |
 | 6 | Security & Verification | v1.1 | 3 | Planned | — |
 | 7 | Navigation & Ride Extras | v1.1 | 3 | Planned | — |
-| 8 | Payments & Rewards | v1.1 | 3 | Not started | — |
+| 8 | Payments & Rewards | v1.1 | 3 | Planned | — |
 | 9 | Discovery & Content | v1.1 | 3 | Not started | — |
