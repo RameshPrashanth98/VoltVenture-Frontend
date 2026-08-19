@@ -1,38 +1,40 @@
 {
   "version": "1.0",
-  "timestamp": "2026-08-19T02:30:00Z",
-  "phase": "07",
-  "phase_name": "Navigation & Ride Extras",
-  "phase_dir": ".planning/phases/07-navigation-ride-extras",
+  "timestamp": "2026-08-19T12:01:55Z",
+  "phase": "08",
+  "phase_name": "Payments & Rewards",
+  "phase_dir": ".planning/phases/08-payments-and-rewards",
   "plan": 3,
-  "task": null,
-  "total_tasks": null,
+  "task": 2,
+  "total_tasks": 2,
   "status": "paused",
   "completed_tasks": [
-    {"id": "07-01", "name": "NavStack types + NavNavigator + nav screens + BikeDetailSheet wiring", "status": "done", "commit": "100ff7f"},
-    {"id": "07-02", "name": "SafetyMountScreen + RideNavigator + UnlockSuccessScreen routing", "status": "done", "commit": "73d8ae5"},
-    {"id": "07-03", "name": "ChargeNavigator + charging screens + RideReceipt Find Charging CTA", "status": "done", "commit": "ed0ea80"}
+    {"id": "08-01", "name": "SavedCard type + paymentService extension + navigation routes", "status": "done", "commit": "8b58473"},
+    {"id": "08-02", "name": "AddPaymentMethodScreen + SelectPaymentMethodScreen + PaymentMethodsScreen + PaymentSummaryScreen updates", "status": "done", "commit": "56dbc3f"},
+    {"id": "08-03", "name": "VoltCoinsRewardsScreen + AccountScreen VoltCoins row + RideHistoryScreen stats header", "status": "done", "commit": "464fa78"}
   ],
   "remaining_tasks": [],
-  "blockers": [],
+  "blockers": [
+    {
+      "description": "UAT (emulator) not yet run — 4 behavioral checks pending",
+      "type": "human_action",
+      "workaround": "All automated checks (tsc --noEmit) pass. UAT requires Android emulator (Android Studio) or EAS dev build — Expo Go not supported for SDK 57."
+    }
+  ],
   "human_actions_pending": [
     {
-      "action": "Run /gsd:verify-work 7 to validate all Phase 7 deliverables",
-      "context": "All 3 plans executed and committed. TypeScript: zero errors. Pushed to origin/main. Verification not yet run.",
+      "action": "Run UAT on emulator: card add round-trip, payment method change at checkout, Snackbar on Redeem, RideHistory stats header renders",
+      "context": "Phase 8 tsc exits 0. Visual/behavioral UAT requires emulator.",
       "blocking": false
     }
   ],
   "decisions": [
-    {"decision": "StyleSheet.create only for all Phase 7 screens (no NativeWind)", "rationale": "NativeWind causes layout issues on map screens; all 5 new screens use full-screen MapView", "phase": "07"},
-    {"decision": "haversineKm inlined in each map screen", "rationale": "Not exported from MapScreen.tsx; each screen defines its own copy to avoid cross-module dependency", "phase": "07"},
-    {"decision": "ChargeNavigator pre-imported in RootNavigator (07-01) before it existed", "rationale": "Plan 07-01 added the import and registration; 07-03 created the file to resolve the missing module error", "phase": "07"},
-    {"decision": "Parent-capture pattern for RideReceiptScreen -> ChargeStack navigation", "rationale": "After goBack() the navigation prop is invalid; parent reference must be captured before calling goBack()", "phase": "07"}
+    {"decision": "Store only last4 of card number in paymentService.addCard()", "rationale": "T-08-01 threat mitigation — raw card number never persisted or logged", "phase": "08"},
+    {"decision": "Use icon 'hand-coin' instead of 'coins' for VoltCoinsRewardsScreen balance", "rationale": "'coins' is not a valid MaterialCommunityIcons name — caused TS2322; auto-fixed by executor", "phase": "08"},
+    {"decision": "ScrollView (not FlatList) for VoltCoinsRewardsScreen root", "rationale": "Earn history is short; rewards catalog sits below — nested FlatList avoided per RESEARCH.md Pitfall 6", "phase": "08"},
+    {"decision": "SavedCard imported from types/payment (not re-exported by paymentService)", "rationale": "Auto-fixed by 08-02 executor during TypeScript verification", "phase": "08"}
   ],
-  "uncommitted_files": [
-    ".planning/phases/06-security-and-verification/06-RESEARCH.md (modified, pre-existing)",
-    ".planning/phases/06-security-and-verification/06-UI-SPEC.md (untracked, pre-existing)",
-    "VoltVenture/.idea/ (untracked, IDE files — do not commit)"
-  ],
-  "next_action": "Run /gsd:verify-work 7 to validate Phase 7 against success criteria, then /gsd:progress for next phase",
-  "context_notes": "Phase 7 fully executed in this session. Wave 1 (07-01) ran sequentially; Wave 2 (07-02 + 07-03) ran in parallel worktrees. All 17 commits pushed to origin/main. Zero TypeScript errors confirmed. The .idea/ directory and 06-phase unstaged files are pre-existing and can be ignored."
+  "uncommitted_files": [],
+  "next_action": "Run /gsd:discuss-phase 9 or /gsd:plan-phase 9 to begin Phase 9: Discovery & Content",
+  "context_notes": "Phase 8 fully executed, verified (tsc exit 0), and pushed to GitHub (origin/main). All 3 plans complete across 2 waves. 08-VERIFICATION.md confirms all automated checks pass. 4 UAT items pending emulator. Phase 9 (Discovery & Content) is next — CafeDetail, CuratedRoutes, DiscoverVipHubs, Support, PrivacyPolicy, TermsOfService."
 }
