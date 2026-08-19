@@ -4,6 +4,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { AppTabParamList } from '../types/navigation';
 import MapScreen from '../screens/app/MapScreen';
 import AccountNavigator from './AccountNavigator';
+import DiscoverNavigator from './DiscoverNavigator';
 import { DSColors } from '../theme/theme';
 
 const Tab = createBottomTabNavigator<AppTabParamList>();
@@ -30,6 +31,20 @@ export default function AppTabs() {
           tabBarIcon: ({ focused, color, size }) => (
             <MaterialCommunityIcons
               name={focused ? 'map' : 'map-outline'}
+              color={color}
+              size={size}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Discover"
+        component={DiscoverNavigator}
+        options={{
+          tabBarLabel: 'Discover',
+          tabBarIcon: ({ focused, color, size }) => (
+            <MaterialCommunityIcons
+              name={focused ? 'compass' : 'compass-outline'}
               color={color}
               size={size}
             />

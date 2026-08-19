@@ -12,6 +12,8 @@ import { Bike, FilterState } from '../../types/bike';
 import { RootStackParamList } from '../../types/navigation';
 import BikeMarker from '../../components/map/BikeMarker';
 import BikeDetailSheet from '../../components/map/BikeDetailSheet';
+import CafeMarker from '../../components/map/CafeMarker';
+import CafeDetailSheet, { Cafe } from '../../components/map/CafeDetailSheet';
 import FilterSheet from '../../components/map/FilterSheet';
 import BikeListView from '../../components/map/BikeListView';
 
@@ -28,18 +30,29 @@ function haversineKm(lat1: number, lon1: number, lat2: number, lon2: number): nu
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
+const MOCK_CAFES: Cafe[] = [
+  { id: 'c1', name: 'Café de Jaren', hours: 'Mon–Sun 9:00–23:00', latitude: 52.3684, longitude: 4.8960 },
+  { id: 'c2', name: 'Screaming Beans', hours: 'Mon–Fri 8:00–17:00, Sat–Sun 9:00–17:00', latitude: 52.3637, longitude: 4.8833 },
+  { id: 'c3', name: 'Lot Sixty One Coffee', hours: 'Mon–Fri 8:00–17:00, Sat 9:00–17:00', latitude: 52.3612, longitude: 4.8745 },
+  { id: 'c4', name: 'Headfirst Coffee', hours: 'Mon–Sun 8:00–18:00', latitude: 52.3703, longitude: 4.9014 },
+  { id: 'c5', name: 'Black Gold Coffee', hours: 'Mon–Sun 8:30–18:00', latitude: 52.3671, longitude: 4.9044 },
+];
+
 export default function MapScreen() {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const [bikes, setBikes] = useState<Bike[]>([]);
   const [selectedBike, setSelectedBike] = useState<Bike | null>(null);
+  const [selectedCafe, setSelectedCafe] = useState<Cafe | null>(null);
   const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
   const [isListView, setIsListView] = useState(false);
   const [activeFilters, setActiveFilters] = useState<FilterState>({});
 
   const bikeDetailRef = useRef<BottomSheetModal>(null);
   const filterSheetRef = useRef<BottomSheetModal>(null);
+  const cafeDetailRef = useRef<BottomSheetModal>(null);
 
   const snapPoints = useMemo(() => ['45%'], []);
+  const cafeSnapPoints = useMemo(() => ['55%'], []);
 
   const filteredBikes = useMemo(() => {
     const loc = userLocation ?? { latitude: 52.3676, longitude: 4.9041 };
@@ -86,6 +99,11 @@ export default function MapScreen() {
   const handleMarkerPress = useCallback((bike: Bike) => {
     setSelectedBike(bike);
     bikeDetailRef.current?.present();
+  }, []);
+
+  const handleCafeMarkerPress = useCallback((cafe: Cafe) => {
+    setSelectedCafe(cafe);
+    cafeDetailRef.current?.present();
   }, []);
 
   const handleFilterPress = useCallback(() => {
@@ -135,6 +153,16 @@ export default function MapScreen() {
             <BikeMarker />
           </Marker>
         ))}
+        {MOCK_CAFES.map(cafe => (
+          <Marker
+            key={cafe.id}
+            coordinate={{ latitude: cafe.latitude, longitude: cafe.longitude }}
+            onPress={() => handleCafeMarkerPress(cafe)}
+            tracksViewChanges={false}
+          >
+            <CafeMarker />
+          </Marker>
+        ))}
       </MapView>
 
       <IconButton
@@ -173,6 +201,23 @@ export default function MapScreen() {
               bikeDetailRef.current?.dismiss();
               navigation.navigate('NavStack', { screen: 'NavigateToBike', params: { bike: selectedBike } });
             }}
+        />
+      </BottomSheetModal>
+
+      <BottomSheetModal
+        ref={cafeDetailRef}
+        snapPoints={cafeSnapPoints}
+        enablePanDownToClose
+        backdropComponent={renderBackdrop}
+      >
+        <CafeDetailSheet
+          cafe={selectedCafe}
+          userLocation={userLocation}
+          onGetDirections={() => {
+            if (!selectedCafe) return;
+            cafeDetailRef.current?.dismiss();
+            navigation.navigate('NavStack', { screen: 'NavigateToPoi', params: { name: selectedCafe.name, location: { latitude: selectedCafe.latitude, longitude: selectedCafe.longitude } } });
+          }}
         />
       </BottomSheetModal>
 

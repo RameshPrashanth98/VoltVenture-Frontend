@@ -38,8 +38,18 @@ export type AccountStackParamList = {
   SecurityDeposit: undefined;
 };
 
+export type DiscoverStackParamList = {
+  DiscoverMain: undefined;
+  CuratedRoutes: undefined;
+  VipHubs: undefined;
+  Support: undefined;
+  PrivacyPolicy: undefined;
+  TermsOfService: undefined;
+};
+
 export type AppTabParamList = {
   Map: undefined;
+  Discover: NavigatorScreenParams<DiscoverStackParamList>;
   Account: NavigatorScreenParams<AccountStackParamList>;
 };
 
@@ -53,6 +63,7 @@ export type BookingStackParamList = {
 export type NavStackParamList = {
   NavigateToBike: { bike: Bike };
   WalkingDirections: { bike: Bike };
+  NavigateToPoi: { name: string; location: { latitude: number; longitude: number } };
 };
 
 export type ChargeStackParamList = {
