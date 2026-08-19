@@ -218,7 +218,7 @@ VIP hub status badge colors:
 
 **Hub card (FlatList item) — collapsed state:**
 - backgroundColor: `DSColors.surface`, borderRadius: 12, borderWidth: 1, borderColor: `DSColors.border`
-- padding: 16, marginHorizontal: 16, marginVertical: 6
+- padding: 16, marginHorizontal: 16, marginVertical: 8
 - Row 1: Hub name (17px, weight 600, `DSColors.textPrimary`) + "VIP" badge (right-aligned)
 - Row 2: Distance from user (15px, weight 400, `DSColors.textSecondary`, `map-marker` icon) + Status badge (right-aligned)
 - Tap to expand
@@ -226,7 +226,7 @@ VIP hub status badge colors:
 **"VIP" badge:**
 - backgroundColor: `DSColors.primary` (#C6FF2D), color: `DSColors.textOnPrimary` (#0F0F0F)
 - borderRadius: 4, paddingHorizontal: 6, paddingVertical: 2
-- fontSize: 11, fontWeight: '600'
+- fontSize: 13, fontWeight: '600'
 
 **Hub card — expanded state (inline expand, no new screen):**
 - Appended below collapsed content with 12px top margin
