@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { StackScreenProps } from '@react-navigation/stack';
@@ -80,6 +80,20 @@ export default function RideReceiptScreen({ route, navigation }: Props) {
         label="Done"
         onPress={() => navigation.getParent()?.goBack()}
       />
+
+      {/* Find a Charging Station — ghost text button */}
+      <TouchableOpacity
+        style={styles.findChargingButton}
+        onPress={() => {
+          const parent = navigation.getParent();
+          parent?.goBack();
+          setTimeout(() => {
+            parent?.navigate('ChargeStack', { screen: 'EndRideFindCharging' });
+          }, 300);
+        }}
+      >
+        <Text style={styles.findChargingLabel}>Find a Charging Station</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -153,5 +167,15 @@ const styles = StyleSheet.create({
   },
   spacer: {
     flex: 1,
+  },
+  findChargingButton: {
+    marginTop: 12,
+    paddingVertical: 12,
+    alignItems: 'center',
+  },
+  findChargingLabel: {
+    fontSize: 15,
+    fontWeight: '400',
+    color: DSColors.textSecondary,
   },
 });
