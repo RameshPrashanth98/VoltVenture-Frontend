@@ -80,12 +80,16 @@ Plans:
 **Goal:** User can navigate to a selected bike on foot, see safety instructions before mounting, and locate charging stations during and after a ride.
 **Mode:** mvp
 **Requirements:** NAV-01, NAV-02, RIDE-05, RIDE-06, RIDE-07
-**Plans:** TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 07-01-PLAN.md — NavigateToBike screen (map + route polyline + ETA) + WalkingDirections screen (step-by-step list)
-- [ ] 07-02-PLAN.md — SafetyMount screen (safety checklist before ride start)
-- [ ] 07-03-PLAN.md — EndRideFindCharging screen (nearby charger pins) + RidingToCharging screen (map + nav to charger)
+
+**Wave 1**
+- [ ] 07-01-PLAN.md — Navigation types (NavStackParamList + ChargeStackParamList + SafetyMount in RideStack) + NavNavigator + RootNavigator (NavStack + ChargeStack modal registration) + NavigateToBikeScreen (map + polyline + ETA card) + WalkingDirectionsScreen (5-step FlatList) + BikeDetailSheet "Get Directions" button + MapScreen onGetDirections callback
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 07-02-PLAN.md — SafetyMountScreen (4-item checklist + disabled PrimaryButton) + RideNavigator (SafetyMount as first screen) + UnlockSuccessScreen navigation update (ActiveRide → SafetyMount)
+- [ ] 07-03-PLAN.md — ChargeNavigator + EndRideFindChargingScreen (charger pins + info card + Navigate Here) + RidingToChargingScreen (map + polyline + ETA card) + RideReceiptScreen "Find a Charging Station" CTA
 
 **Success Criteria:**
 1. Tapping "Get Directions" on a bike opens a map showing the walking route and ETA
@@ -147,6 +151,6 @@ Plans:
 | 4 | Active Ride & Payment | v1.0 | 3 | Complete | 2026-08-18 |
 | 5 | Account & Profile | v1.1 | 3 | Planned | — |
 | 6 | Security & Verification | v1.1 | 3 | Planned | — |
-| 7 | Navigation & Ride Extras | v1.1 | 3 | Not started | — |
+| 7 | Navigation & Ride Extras | v1.1 | 3 | Planned | — |
 | 8 | Payments & Rewards | v1.1 | 3 | Not started | — |
 | 9 | Discovery & Content | v1.1 | 3 | Not started | — |
