@@ -46,7 +46,7 @@ Declared values (must be multiples of 4):
 | 3xl | 64px | Page-level top/bottom breathing room on legal screens |
 
 Exceptions:
-- Menu row gap between icon and label: 12px (matches AccountScreen.tsx exactly — not a multiple of 4, inherited from existing pattern)
+- Menu row gap between icon and label: 12px — grid-aligned (4 × 3), matching AccountScreen.tsx icon-to-label gap.
 - Bottom sheet handle: width 40px, height 4px, borderRadius 2px (matches BikeDetailSheet.tsx)
 - Avatar/touch targets: 48px minimum height for all interactive rows
 
@@ -56,17 +56,18 @@ Exceptions:
 
 All values sourced from `DSTypography` in `src/theme/theme.ts`. Reference only DSTypography constants — do not hardcode font sizes inline.
 
+**Active font sizes in Phase 9 (exactly 4):** 13px, 15px, 17px, 20px.
+
 | Role | Token | Size | Weight | Line Height | Usage |
 |------|-------|------|--------|-------------|-------|
-| Display | `DSTypography.display` | 32px | 700 | 36px | Screen hero numbers (not used in Phase 9) |
-| Heading | `DSTypography.heading` | 20px | 600 | 26px | Café name in sheet, route card title, hub card title, screen title in custom header |
-| Heading Md | `DSTypography.headingMd` | 17px | 600 | 24px | Section titles on DiscoverScreen ("Explore", "Info"), legal screen section headers |
-| Body | `DSTypography.body` | 15px | 400 | 22px | Subtitle text, café hours/distance, hub description, FAQ answer text, legal paragraph text |
-| Label | `DSTypography.label` | 13px | 600 | 16px | Difficulty badge text, "VIP" badge, status badge, WalkingDirections step label |
-| Overline | inline — 12px, weight 500, uppercase, letterSpacing 0.8 | 12px | 500 | 14px | Section headers on DiscoverScreen ("EXPLORE", "INFO") — matches PaymentMethodsScreen section header style |
-| Menu Row | inline — 16px, weight 400 | 16px | 400 | auto | Menu row labels in DiscoverScreen (matches AccountScreen.tsx `menuRowText` exactly) |
+| Heading | `DSTypography.heading` | 20px | 600 | 26px | Screen title on DiscoverScreen, café name in sheet, route card title, hub card title, screen title in custom header |
+| Heading Md | `DSTypography.headingMd` | 17px | 600 | 24px | Section titles on non-Discover screens ("Explore", "Info"), legal screen section headers |
+| Body | `DSTypography.body` | 15px | 400 | 22px | Subtitle text, café hours/distance, hub description, FAQ answer text, legal paragraph text, menu row labels |
+| Label | `DSTypography.label` | 13px | 600 | 16px | Difficulty badge text, "VIP" badge, status badge, WalkingDirections step label; also used for overline treatment (uppercase + letterSpacing 0.8, color `DSColors.textSecondary`) |
 
-**Font weight rule:** Only two weights in primary use — 400 (regular) and 600 (semibold). 700 is reserved for display contexts not active in this phase.
+**Font weight rule:** Only two weights active in Phase 9 — 400 (regular) and 600 (semibold). Weight 700 exists in DSTypography.display but is not used in any Phase 9 screen.
+
+**Overline treatment (not a separate size):** Section headers rendered as overline (e.g., "EXPLORE", "INFO" on DiscoverScreen; `List.Section` titles on SupportScreen) use the Label size (13px) with: uppercase transform, letterSpacing 0.8, weight 600, color `DSColors.textSecondary`. This is not an additional font size — it is a visual treatment applied to the 13px label size.
 
 ---
 
@@ -121,10 +122,10 @@ VIP hub status badge colors:
 **Layout:** SafeAreaView > ScrollView (or static View if content fits without scroll)
 
 **Structure:**
-- Screen title: "Discover" — 24px, weight 700, `DSColors.textPrimary`, paddingHorizontal 24, paddingTop 24, paddingBottom 16 (matches AccountScreen `title` style exactly)
-- Section header "EXPLORE": uppercase, 12px, weight 500, `DSColors.textSecondary`, letterSpacing 0.8, paddingHorizontal 24, paddingTop 16, paddingBottom 8
+- Screen title: "Discover" — 20px, weight 600, `DSColors.textPrimary`, paddingHorizontal 24, paddingTop 24, paddingBottom 16 (matches AccountScreen `title` style exactly, using DSTypography.heading)
+- Section header "EXPLORE": 13px, weight 600, `DSColors.textSecondary`, uppercase, letterSpacing 0.8, paddingHorizontal 24, paddingTop 16, paddingBottom 8 (overline treatment on Label size)
 - Menu rows (Explore section): "Curated Routes" (`map-route` icon), "VIP Hubs" (`lightning-bolt-circle` icon)
-- Section header "INFO": uppercase, 12px, weight 500, `DSColors.textSecondary`, letterSpacing 0.8, paddingHorizontal 24, paddingTop 16, paddingBottom 8
+- Section header "INFO": 13px, weight 600, `DSColors.textSecondary`, uppercase, letterSpacing 0.8, paddingHorizontal 24, paddingTop 16, paddingBottom 8
 - Menu rows (Info section): "Support & Help" (`help-circle-outline` icon), "Privacy Policy" (`file-document-outline` icon), "Terms of Service" (`file-check-outline` icon)
 
 **Menu row spec (identical to AccountScreen `menuRow` style):**
@@ -135,7 +136,7 @@ VIP hub status badge colors:
 - Last row in each section also gets borderBottomWidth: 1
 - Left side: icon (size 20, color `DSColors.textPrimary`) + label (gap: 12)
 - Right side: `chevron-right` (size 20, color `DSColors.textSecondary`)
-- Label: 16px, weight 400, `DSColors.textPrimary`
+- Label: 15px, weight 400, `DSColors.textPrimary` (DSTypography.body — matches AccountScreen.tsx `menuRowText` exactly)
 
 **Interactions:** Each row tap navigates to respective DiscoverStack screen. activeOpacity: 0.7 on all TouchableOpacity rows.
 
@@ -321,7 +322,7 @@ Differences from NavigateToBike:
 
 **FAQ sections (React Native Paper `List.Section` + `List.Accordion`):**
 - All inside a single ScrollView (no FlatList — static content)
-- `List.Section` title style: matches overline spec — 12px, weight 500, `DSColors.textSecondary`, uppercase, letterSpacing 0.8
+- `List.Section` title style: 13px, weight 600, `DSColors.textSecondary`, uppercase, letterSpacing 0.8 (overline treatment on Label size — same as DiscoverScreen section headers)
 - `List.Accordion` title: 15px, weight 600, `DSColors.textPrimary`
 - `List.Accordion` description (expanded): 15px, weight 400, `DSColors.textSecondary`, lineHeight 22, paddingHorizontal 16, paddingBottom 12
 - Divider between items: `Divider` from React Native Paper, backgroundColor `DSColors.border`
@@ -427,8 +428,8 @@ VoltVenture is not liable for injuries, losses, or damages arising from the use 
 | Hub amenity 2 | VipHubs expanded | "Covered, secure parking" |
 | Hub amenity 3 | VipHubs expanded | "24h access — no closing time" |
 | ETA card label format | NavigateToPoi | "{N} min walk — {M} m" |
-| Discover section 1 | DiscoverScreen | "EXPLORE" (uppercase overline) |
-| Discover section 2 | DiscoverScreen | "INFO" (uppercase overline) |
+| Discover section 1 | DiscoverScreen | "EXPLORE" (uppercase overline treatment) |
+| Discover section 2 | DiscoverScreen | "INFO" (uppercase overline treatment) |
 | Menu row — routes | DiscoverScreen | "Curated Routes" |
 | Menu row — hubs | DiscoverScreen | "VIP Hubs" |
 | Menu row — support | DiscoverScreen | "Support & Help" |
