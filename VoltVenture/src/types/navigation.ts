@@ -18,6 +18,7 @@ export type RideStackParamList = {
   SafetyMount: { bike: Bike };
   ActiveRide: { bike: Bike };
   PaymentSummary: { rideSummary: RideSummary };
+  SelectPaymentMethod: undefined;
   RideReceipt: { paymentResult: PaymentResult; rideSummary: RideSummary };
 };
 
@@ -25,6 +26,8 @@ export type AccountStackParamList = {
   AccountMain: undefined;
   RideHistory: undefined;
   PaymentMethods: undefined;
+  AddPaymentMethod: undefined;
+  VoltCoins: undefined;
   Profile: undefined;
   EditProfile: undefined;
   Settings: undefined;

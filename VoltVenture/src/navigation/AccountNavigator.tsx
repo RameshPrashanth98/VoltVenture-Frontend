@@ -13,6 +13,8 @@ import LoginSecurityScreen from '../screens/app/LoginSecurityScreen';
 import IdScanScreen from '../screens/app/IdScanScreen';
 import FacialScanScreen from '../screens/app/FacialScanScreen';
 import SecurityDepositScreen from '../screens/app/SecurityDepositScreen';
+import AddPaymentMethodScreen from '../screens/app/AddPaymentMethodScreen';
+import VoltCoinsRewardsScreen from '../screens/app/VoltCoinsRewardsScreen';
 
 const Stack = createStackNavigator<AccountStackParamList>();
 
@@ -23,6 +25,7 @@ export default function AccountNavigator() {
         <Stack.Screen name="AccountMain" component={AccountScreen} options={{ headerShown: false }} />
         <Stack.Screen name="RideHistory" component={RideHistoryScreen} options={{ title: 'Ride History' }} />
         <Stack.Screen name="PaymentMethods" component={PaymentMethodsScreen} options={{ title: 'Payment Methods' }} />
+        <Stack.Screen name="AddPaymentMethod" component={AddPaymentMethodScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
         <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Settings" component={SettingsScreen} options={{ headerShown: false }} />
@@ -31,6 +34,7 @@ export default function AccountNavigator() {
         <Stack.Screen name="IdScan" component={IdScanScreen} options={{ headerShown: false }} />
         <Stack.Screen name="FacialScan" component={FacialScanScreen} options={{ headerShown: false }} />
         <Stack.Screen name="SecurityDeposit" component={SecurityDepositScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="VoltCoins" component={VoltCoinsRewardsScreen} options={{ headerShown: false }} />
       </Stack.Navigator>
     </ProfileProvider>
   );
