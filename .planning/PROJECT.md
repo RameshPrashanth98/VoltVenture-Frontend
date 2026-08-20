@@ -1,5 +1,17 @@
 # VoltVenture
 
+## Current Milestone: v1.2 Android UAT
+
+**Goal:** Verify all frontend screens work correctly on Android emulator; fix every failing requirement before backend integration begins.
+
+**Target features:**
+- Android emulator setup — app boots without crashes
+- Formal UAT pass through all ~44 REQ-IDs (AUTH-01 → DISC-07)
+- Bug fixes for every failed requirement
+- All requirements verified green before milestone close
+
+---
+
 ## What This Is
 
 VoltVenture is a mobile e-bike rental app for tourists. It lets travelers find nearby available electric bikes, book and unlock them directly from their phone, ride with live cost tracking, and pay in-app — making short-range exploration frictionless for visitors who don't know the area.
@@ -50,14 +62,29 @@ A tourist can go from opening the app to riding an e-bike in under 2 minutes.
 - ✓ User can browse curated e-bike routes — v1.1 DISC-06
 - ✓ User can discover and explore VIP hubs on the map — v1.1 DISC-07
 
-### Active (v2.0)
+### Active (v1.2)
+
+- [ ] App launches on Android emulator without crash — SETUP-01
+- [ ] All navigation tabs and stacks accessible — SETUP-02
+- [ ] Authentication screens verified (AUTH-01–AUTH-05) — UAT-01
+- [ ] Bike discovery screens verified (DISC-01–DISC-04) — UAT-02
+- [ ] Booking & unlock screens verified (BOOK-01–BOOK-04) — UAT-03
+- [ ] Active ride screens verified (RIDE-01–RIDE-07) — UAT-04
+- [ ] Payment screens verified (PAY-01–PAY-06) — UAT-05
+- [ ] Profile & account screens verified (PROF-01–PROF-04, HIST-01) — UAT-06
+- [ ] Security screens verified (SEC-01–SEC-04) — UAT-07
+- [ ] Navigation screens verified (NAV-01–NAV-02) — UAT-08
+- [ ] Rewards screen verified (REW-01) — UAT-09
+- [ ] Discovery & content screens verified (DISC-05–DISC-07, CONT-01–CONT-03) — UAT-10
+- [ ] All failed UAT requirements resolved — FIX-01
+
+### Deferred (v3.0)
 
 - [ ] Real backend API integration (auth, bikes, bookings, rides, payments)
 - [ ] Real Google/Apple OAuth
 - [ ] Real BLE unlock (native BLE library)
 - [ ] Real payment processing (Stripe or equivalent)
 - [ ] Push notifications
-- [ ] UAT on emulator (all v1.0 and v1.1 screens)
 
 ### Out of Scope
 
@@ -120,4 +147,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-08-19 after v1.1 milestone*
+*Last updated: 2026-08-20 — v1.2 Android UAT started*

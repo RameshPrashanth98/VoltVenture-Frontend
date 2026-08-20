@@ -1,32 +1,33 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.1
-milestone_name: Complete Frontend
-status: complete
-stopped_at: v1.1 milestone archived — ready for /gsd:new-milestone
-last_updated: "2026-08-19T18:00:00Z"
+milestone: v1.2
+milestone_name: Android UAT
+status: planning
+stopped_at: requirements defined — ready to plan phases
+last_updated: "2026-08-20T00:00:00Z"
 progress:
-  total_phases: 9
-  completed_phases: 9
-  total_plans: 31
-  completed_plans: 31
-  percent: 100
+  total_phases: 4
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # VoltVenture — Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-08-19)
+See: .planning/PROJECT.md (updated 2026-08-20)
 
 **Core value:** A tourist can go from opening the app to riding an e-bike in under 2 minutes.
-**Current focus:** v1.1 archived — planning next milestone (v2.0 Backend Integration)
+**Current focus:** v1.2 Android UAT — verify all ~44 REQ-IDs on emulator, fix failures
 
 ## Current Position
 
-Milestone: v1.1 Complete Frontend ✅ SHIPPED 2026-08-19
-All 9 phases complete. All 31 plans complete (v1.0: 16 plans, v1.1: 15 plans).
-Status: Archived — ready for /gsd:new-milestone
+Phase: Not started (defining roadmap)
+Plan: —
+Status: Defining roadmap
+Last activity: 2026-08-20 — Milestone v1.2 started
 
 ## Completed Milestones
 
@@ -51,16 +52,16 @@ Archive: `.planning/milestones/v1.1-ROADMAP.md`
 
 ## Session Continuity
 
-Last session: 2026-08-19T18:00:00Z
-Stopped at: v1.1 milestone archived
-Resume: /gsd:new-milestone to start v2.0 Backend Integration planning
+Last session: 2026-08-20T00:00:00Z
+Stopped at: Milestone v1.2 initialized — run /gsd:plan-phase 10 to plan emulator setup phase
+Resume: /gsd:plan-phase 10
 
 ## Notes
 
 - v1.0 git tag: v1.0
 - DSColors MUST be inlined in tailwind.config.js (cannot require() TS ESM)
 - textOnPrimary = #0F0F0F (black) — Electric Green is LIGHT (1.36:1 contrast)
-- Expo SDK 57: requires Android emulator or EAS dev build (not Expo Go)
+- Expo SDK 57: requires Android emulator (Android Studio API 33+) or EAS dev build (not Expo Go)
 - StyleSheet.create with DSColors for map/complex screens
-- UAT still pending (emulator required) — 2 milestones of unverified runtime behavior
-- REQUIREMENTS.md deleted (fresh for v2.0)
+- Two full milestones of unverified runtime behavior pending UAT
+- REQUIREMENTS.md created fresh for v1.2
