@@ -1,37 +1,46 @@
 {
   "version": "1.0",
-  "timestamp": "2026-08-20T09:33:57Z",
-  "phase": null,
-  "phase_name": null,
-  "phase_dir": null,
-  "plan": null,
-  "task": null,
-  "total_tasks": null,
+  "timestamp": "2026-08-21T13:30:00Z",
+  "phase": "10",
+  "phase_name": "Emulator Setup & Smoke Test",
+  "phase_dir": ".planning/phases/10-emulator-setup-smoke-test",
+  "plan": 0,
+  "task": 0,
+  "total_tasks": 3,
   "status": "paused",
   "completed_tasks": [
-    {"id": 1, "name": "Resume from v1.1 milestone", "status": "done"},
-    {"id": 2, "name": "Gather v1.2 milestone goals — Android UAT", "status": "done"},
-    {"id": 3, "name": "Update PROJECT.md with Current Milestone section", "status": "done"},
-    {"id": 4, "name": "Reset STATE.md for v1.2", "status": "done"},
-    {"id": 5, "name": "Create REQUIREMENTS.md — 13 requirements (SETUP-01-02, UAT-01-10, FIX-01)", "status": "done"},
-    {"id": 6, "name": "Update ROADMAP.md — Phases 10-13", "status": "done"},
-    {"id": 7, "name": "Commit all planning artifacts", "status": "done"}
+    {"id": 1, "name": "Phase 10 PLAN.md written (3 plans)", "status": "done", "commit": "pending"}
   ],
-  "remaining_tasks": [],
-  "blockers": [],
+  "remaining_tasks": [
+    {"id": 2, "name": "Plan 10.1 — MapLibre dependency swap & app config", "status": "not_started"},
+    {"id": 3, "name": "Plan 10.2 — Screen migration (7 screens)", "status": "not_started"},
+    {"id": 4, "name": "Plan 10.3 — Build, smoke test & VERIFICATION.md", "status": "not_started"}
+  ],
+  "blockers": [
+    {
+      "description": "Android emulator must be fully booted before running npx expo run:android",
+      "type": "human_action",
+      "workaround": "Run: emulator -avd <AVD_NAME> in a separate terminal, wait for home screen, then confirm adb devices shows 'device' before invoking expo"
+    }
+  ],
   "human_actions_pending": [
     {
-      "action": "Set up Android Studio emulator (API 33+) before Phase 10 execution",
-      "context": "Expo SDK 57 incompatible with published Expo Go — Android emulator or EAS dev build required",
+      "action": "Start Android emulator (Pixel_6, API 34) via: emulator -avd Pixel_6 in a separate terminal",
+      "context": "npx expo run:android failed with 'could not connect to TCP port 5554' — emulator was not running. Must reach 'device' state in adb devices before building.",
       "blocking": true
     }
   ],
   "decisions": [
-    {"decision": "Milestone v1.2 Android UAT before v2.0 backend integration", "rationale": "Two milestones of unverified runtime behavior — safer to validate frontend before wiring real APIs", "phase": null},
-    {"decision": "4 phases (10-13): Setup, Core UAT, Ride/Account UAT, Extras + Bug Fixes", "rationale": "Natural groupings matching original phase structure; bug fixes consolidated in final phase", "phase": null},
-    {"decision": "Version v1.2 not v2.0", "rationale": "Still frontend work — v2.0 reserved for backend integration milestone", "phase": null}
+    {"decision": "Replace react-native-maps with @maplibre/maplibre-react-native using OSM tiles", "rationale": "Removes Google Maps API key requirement for UAT. Google Maps deferred to v3.0.", "phase": "10"},
+    {"decision": "Use MapLibre demo style URL: https://demotiles.maplibre.org/style.json", "rationale": "Free, no API key, sufficient for UAT", "phase": "10"},
+    {"decision": "Fix only SETUP-01/02 blockers inline; log cosmetic issues in VERIFICATION.md for FIX-01", "rationale": "Phases 11-12 need a working baseline; non-blockers accumulate for Phase 13", "phase": "10"},
+    {"decision": "Leave google-signin and expo-apple-authentication plugins in place", "rationale": "google-signin is mocked; apple-auth is iOS-only and no-ops on Android. Only remove if actual build failure.", "phase": "10"}
   ],
-  "uncommitted_files": [],
-  "next_action": "Run /gsd:discuss-phase 10 or /gsd:plan-phase 10 to plan the emulator setup phase",
-  "context_notes": "Milestone v1.2 fully initialized. Clean state — all planning artifacts committed. Android Studio emulator setup is the only prerequisite before Phase 10 execution can begin. Phase 10 covers emulator setup + app launch smoke test."
+  "uncommitted_files": [
+    ".planning/phases/10-emulator-setup-smoke-test/PLAN.md",
+    ".planning/REQUIREMENTS.md",
+    ".planning/STATE.md"
+  ],
+  "next_action": "1. Start emulator: emulator -avd Pixel_6 in separate terminal. 2. Confirm adb devices shows 'device'. 3. Execute Plan 10.1 (dependency swap + app.json + prebuild). 4. Execute Plan 10.2 (7 screen migrations) in parallel. 5. Execute Plan 10.3 (expo run:android + smoke test + VERIFICATION.md).",
+  "context_notes": "Planning complete. Execution blocked on emulator startup. User is on Windows 11, Pixel_6 API 34 AVD. Emulator must be started manually in a separate terminal before expo build."
 }
