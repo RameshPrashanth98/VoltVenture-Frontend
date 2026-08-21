@@ -52,9 +52,9 @@ Archive: `.planning/milestones/v1.1-ROADMAP.md`
 
 ## Session Continuity
 
-Last session: 2026-08-20T00:00:00Z
-Stopped at: Milestone v1.2 initialized — run /gsd:plan-phase 10 to plan emulator setup phase
-Resume: /gsd:plan-phase 10
+Last session: 2026-08-21T00:00:00Z
+Stopped at: Phase 10 context gathered
+Resume: .planning/phases/10-emulator-setup-smoke-test/10-CONTEXT.md
 
 ## Notes
 
