@@ -1,46 +1,48 @@
 {
   "version": "1.0",
-  "timestamp": "2026-08-21T13:30:00Z",
+  "timestamp": "2026-08-22T00:00:00Z",
   "phase": "10",
   "phase_name": "Emulator Setup & Smoke Test",
   "phase_dir": ".planning/phases/10-emulator-setup-smoke-test",
-  "plan": 0,
+  "plan": 1,
   "task": 0,
   "total_tasks": 3,
   "status": "paused",
   "completed_tasks": [
-    {"id": 1, "name": "Phase 10 PLAN.md written (3 plans)", "status": "done", "commit": "pending"}
+    {"id": 1, "name": "Phase 10 PLAN.md written (3 plans)", "status": "done", "commit": "b60ddb8"},
+    {"id": 2, "name": "Fix Gradle OOM: bumped JVM heap to -Xmx4g, Metaspace to 512m", "status": "done", "commit": "disk-only (android/ is gitignored)"},
+    {"id": 3, "name": "Fix CMake/JDK failure: set newArchEnabled=false, added --add-opens flags", "status": "done", "commit": "disk-only (android/ is gitignored)"}
   ],
   "remaining_tasks": [
-    {"id": 2, "name": "Plan 10.1 — MapLibre dependency swap & app config", "status": "not_started"},
-    {"id": 3, "name": "Plan 10.2 — Screen migration (7 screens)", "status": "not_started"},
-    {"id": 4, "name": "Plan 10.3 — Build, smoke test & VERIFICATION.md", "status": "not_started"}
+    {"id": 4, "name": "Verify build passes with Gradle fixes (npx expo run:android)", "status": "not_started"},
+    {"id": 5, "name": "Plan 10.1 — MapLibre dependency swap & app config", "status": "not_started"},
+    {"id": 6, "name": "Plan 10.2 — Screen migration (7 screens)", "status": "not_started"},
+    {"id": 7, "name": "Plan 10.3 — Build, smoke test & VERIFICATION.md", "status": "not_started"}
   ],
   "blockers": [
     {
-      "description": "Android emulator must be fully booted before running npx expo run:android",
+      "description": "Build not yet confirmed passing — two Gradle fixes applied but build not re-run to verify",
       "type": "human_action",
-      "workaround": "Run: emulator -avd <AVD_NAME> in a separate terminal, wait for home screen, then confirm adb devices shows 'device' before invoking expo"
+      "workaround": "Start emulator, run npx expo run:android to confirm fixes before starting Plan 10.1"
     }
   ],
   "human_actions_pending": [
     {
-      "action": "Start Android emulator (Pixel_6, API 34) via: emulator -avd Pixel_6 in a separate terminal",
-      "context": "npx expo run:android failed with 'could not connect to TCP port 5554' — emulator was not running. Must reach 'device' state in adb devices before building.",
+      "action": "Start Android emulator (adb devices), then run: cd VoltVenture && npx expo run:android to confirm the two Gradle fixes resolve the build",
+      "context": "Fix 1: OOM Metaspace — bumped JVM to -Xmx4g / -XX:MaxMetaspaceSize=512m. Fix 2: CMake restricted method failure — set newArchEnabled=false, added --add-opens flags. Both fixes are in android/gradle.properties (disk-only, gitignored).",
       "blocking": true
     }
   ],
   "decisions": [
-    {"decision": "Replace react-native-maps with @maplibre/maplibre-react-native using OSM tiles", "rationale": "Removes Google Maps API key requirement for UAT. Google Maps deferred to v3.0.", "phase": "10"},
-    {"decision": "Use MapLibre demo style URL: https://demotiles.maplibre.org/style.json", "rationale": "Free, no API key, sufficient for UAT", "phase": "10"},
-    {"decision": "Fix only SETUP-01/02 blockers inline; log cosmetic issues in VERIFICATION.md for FIX-01", "rationale": "Phases 11-12 need a working baseline; non-blockers accumulate for Phase 13", "phase": "10"},
-    {"decision": "Leave google-signin and expo-apple-authentication plugins in place", "rationale": "google-signin is mocked; apple-auth is iOS-only and no-ops on Android. Only remove if actual build failure.", "phase": "10"}
+    {"decision": "newArchEnabled=false in android/gradle.properties", "rationale": "react-native-worklets and react-native-screens CMake config fails with JDK 17/21 restricted System methods. Disabling New Architecture avoids CMake builds entirely. Functionally identical for UAT.", "phase": "10"},
+    {"decision": "JVM heap: -Xmx4g, -XX:MaxMetaspaceSize=512m", "rationale": "Default 768m heap caused OutOfMemoryError: Metaspace during async-storage manifest processing. RN with many native modules needs 2-4GB.", "phase": "10"},
+    {"decision": "android/ is gitignored — gradle.properties fixes are disk-only", "rationale": "VoltVenture/.gitignore line 41 excludes /android. If expo prebuild --clean is run, gradle.properties fixes must be reapplied.", "phase": "10"},
+    {"decision": "Replace react-native-maps with @maplibre/maplibre-react-native (OSM tiles)", "rationale": "Removes Google Maps API key requirement for UAT. Google Maps deferred to v3.0.", "phase": "10"},
+    {"decision": "Leave google-signin and expo-apple-authentication in place", "rationale": "google-signin is mocked; apple-auth is iOS-only no-op on Android. Only remove on actual build failure.", "phase": "10"}
   ],
   "uncommitted_files": [
-    ".planning/phases/10-emulator-setup-smoke-test/PLAN.md",
-    ".planning/REQUIREMENTS.md",
     ".planning/STATE.md"
   ],
-  "next_action": "1. Start emulator: emulator -avd Pixel_6 in separate terminal. 2. Confirm adb devices shows 'device'. 3. Execute Plan 10.1 (dependency swap + app.json + prebuild). 4. Execute Plan 10.2 (7 screen migrations) in parallel. 5. Execute Plan 10.3 (expo run:android + smoke test + VERIFICATION.md).",
-  "context_notes": "Planning complete. Execution blocked on emulator startup. User is on Windows 11, Pixel_6 API 34 AVD. Emulator must be started manually in a separate terminal before expo build."
+  "next_action": "1. Start emulator. 2. Run npx expo run:android to verify Gradle fixes pass. 3. If passes: execute Plan 10.1 + 10.2 in parallel (MapLibre swap + screen migration). 4. Execute Plan 10.3 (build + smoke test + VERIFICATION.md).",
+  "context_notes": "Plans 10.1–10.3 are fully written and ready. No app code has changed yet — still on react-native-maps. Only android/gradle.properties was modified (disk-only). The two Gradle build errors were fixed but not yet verified by a successful build."
 }
