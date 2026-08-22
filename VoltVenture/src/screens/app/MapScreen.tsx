@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { View, Text, StyleSheet } from 'react-native';
 import { FAB, IconButton } from 'react-native-paper';
 import { BottomSheetModal, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
-import MapView, { Marker } from 'react-native-maps';
+import MapLibreGL from '@maplibre/maplibre-react-native';
 import * as Location from 'expo-location';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -132,38 +132,40 @@ export default function MapScreen() {
 
   return (
     <View style={StyleSheet.absoluteFill}>
-      <MapView
+      <MapLibreGL.MapView
         style={StyleSheet.absoluteFill}
-        initialRegion={{
-          latitude: 52.3676,
-          longitude: 4.9041,
-          latitudeDelta: 0.05,
-          longitudeDelta: 0.05,
-        }}
-        showsUserLocation={true}
-        showsMyLocationButton={false}
+        styleURL="https://demotiles.maplibre.org/style.json"
       >
+        <MapLibreGL.Camera
+          centerCoordinate={[4.9041, 52.3676]}
+          zoomLevel={13}
+        />
+        <MapLibreGL.UserLocation />
         {filteredBikes.map(bike => (
-          <Marker
+          <MapLibreGL.PointAnnotation
             key={bike.id}
-            coordinate={{ latitude: bike.latitude, longitude: bike.longitude }}
-            onPress={() => handleMarkerPress(bike)}
-            tracksViewChanges={false}
+            id={`bike-${bike.id}`}
+            coordinate={[bike.longitude, bike.latitude]}
+            onSelected={() => handleMarkerPress(bike)}
           >
-            <BikeMarker />
-          </Marker>
+            <View>
+              <BikeMarker />
+            </View>
+          </MapLibreGL.PointAnnotation>
         ))}
         {MOCK_CAFES.map(cafe => (
-          <Marker
+          <MapLibreGL.PointAnnotation
             key={cafe.id}
-            coordinate={{ latitude: cafe.latitude, longitude: cafe.longitude }}
-            onPress={() => handleCafeMarkerPress(cafe)}
-            tracksViewChanges={false}
+            id={`cafe-${cafe.id}`}
+            coordinate={[cafe.longitude, cafe.latitude]}
+            onSelected={() => handleCafeMarkerPress(cafe)}
           >
-            <CafeMarker />
-          </Marker>
+            <View>
+              <CafeMarker />
+            </View>
+          </MapLibreGL.PointAnnotation>
         ))}
-      </MapView>
+      </MapLibreGL.MapView>
 
       <IconButton
         icon="filter-variant"
