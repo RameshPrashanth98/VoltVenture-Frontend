@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
-import MapView, { Marker, Polyline } from 'react-native-maps';
+import MapLibreGL from '@maplibre/maplibre-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { StackScreenProps } from '@react-navigation/stack';
@@ -23,6 +23,17 @@ function haversineKm(lat1: number, lon1: number, lat2: number, lon2: number): nu
 
 const USER_LAT = 52.3676;
 const USER_LON = 4.9041;
+
+function buildLineGeoJSON(coords: Array<{ latitude: number; longitude: number }>) {
+  return {
+    type: 'Feature' as const,
+    geometry: {
+      type: 'LineString' as const,
+      coordinates: coords.map(c => [c.longitude, c.latitude]),
+    },
+    properties: {},
+  };
+}
 
 type Props = StackScreenProps<NavStackParamList, 'NavigateToBike'>;
 
@@ -52,39 +63,53 @@ export default function NavigateToBikeScreen({ route, navigation }: Props) {
 
   return (
     <View style={StyleSheet.absoluteFill}>
-      <MapView
+      <MapLibreGL.MapView
         style={StyleSheet.absoluteFill}
-        initialRegion={{
-          latitude: (USER_LAT + bike.latitude) / 2,
-          longitude: (USER_LON + bike.longitude) / 2,
-          latitudeDelta: 0.05,
-          longitudeDelta: 0.05,
-        }}
+        styleURL="https://demotiles.maplibre.org/style.json"
         scrollEnabled={false}
         zoomEnabled={true}
         rotateEnabled={false}
         pitchEnabled={false}
       >
+        <MapLibreGL.Camera
+          centerCoordinate={[
+            (USER_LON + bike.longitude) / 2,
+            (USER_LAT + bike.latitude) / 2,
+          ]}
+          zoomLevel={13}
+        />
         {/* User position dot */}
-        <Marker coordinate={{ latitude: USER_LAT, longitude: USER_LON }}>
+        <MapLibreGL.PointAnnotation
+          id="route-start"
+          coordinate={[USER_LON, USER_LAT]}
+        >
           <View style={styles.userMarker} />
-        </Marker>
+        </MapLibreGL.PointAnnotation>
         {/* Bike destination pin */}
-        <Marker coordinate={{ latitude: bike.latitude, longitude: bike.longitude }}>
-          <MaterialCommunityIcons name="bicycle" size={24} color={DSColors.primary} />
-        </Marker>
-        {/* Route polyline — must be INSIDE MapView, not in overlay */}
-        <Polyline
-          coordinates={[
+        <MapLibreGL.PointAnnotation
+          id="route-end"
+          coordinate={[bike.longitude, bike.latitude]}
+        >
+          <View>
+            <MaterialCommunityIcons name="bicycle" size={24} color={DSColors.primary} />
+          </View>
+        </MapLibreGL.PointAnnotation>
+        {/* Route line */}
+        <MapLibreGL.ShapeSource
+          id="route"
+          shape={buildLineGeoJSON([
             { latitude: USER_LAT, longitude: USER_LON },
             { latitude: 52.3690, longitude: 4.9020 },
             { latitude: 52.3710, longitude: 4.9005 },
             { latitude: bike.latitude, longitude: bike.longitude },
-          ]}
-          strokeColor={DSColors.primary}
-          strokeWidth={4}
-        />
-      </MapView>
+          ])}
+        >
+          <MapLibreGL.LineLayer
+            id="routeLine"
+            style={{ lineColor: DSColors.primary, lineWidth: 4 }}
+          />
+        </MapLibreGL.ShapeSource>
+      </MapLibreGL.MapView>
 
       {/* Top ETA card */}
       <View style={[styles.overlayCard, { top: insets.top + 8 }]}>
