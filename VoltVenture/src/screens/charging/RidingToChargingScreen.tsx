@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import MapView, { Marker, Polyline } from 'react-native-maps';
+import MapLibreGL from '@maplibre/maplibre-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { StackScreenProps } from '@react-navigation/stack';
@@ -21,6 +21,18 @@ function haversineKm(lat1: number, lon1: number, lat2: number, lon2: number): nu
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
+// ─── GeoJSON helper ───────────────────────────────────────────────────────────
+function buildLineGeoJSON(coords: Array<{ latitude: number; longitude: number }>) {
+  return {
+    type: 'Feature' as const,
+    geometry: {
+      type: 'LineString' as const,
+      coordinates: coords.map(c => [c.longitude, c.latitude]),
+    },
+    properties: {},
+  };
+}
+
 // ─── Props ────────────────────────────────────────────────────────────────────
 type Props = StackScreenProps<ChargeStackParamList, 'RidingToCharging'>;
 
@@ -37,41 +49,55 @@ export default function RidingToChargingScreen({ route }: Props) {
 
   return (
     <View style={StyleSheet.absoluteFill}>
-      <MapView
+      <MapLibreGL.MapView
         style={StyleSheet.absoluteFill}
+        styleURL="https://demotiles.maplibre.org/style.json"
         scrollEnabled={false}
         zoomEnabled={true}
         rotateEnabled={false}
         pitchEnabled={false}
-        initialRegion={{
-          latitude: (USER_LAT + location.latitude) / 2,
-          longitude: (USER_LON + location.longitude) / 2,
-          latitudeDelta: 0.03,
-          longitudeDelta: 0.03,
-        }}
       >
+        <MapLibreGL.Camera
+          centerCoordinate={[
+            (USER_LON + location.longitude) / 2,
+            (USER_LAT + location.latitude) / 2,
+          ]}
+          zoomLevel={13}
+        />
         {/* User position dot */}
-        <Marker coordinate={{ latitude: USER_LAT, longitude: USER_LON }}>
+        <MapLibreGL.PointAnnotation
+          id="route-start"
+          coordinate={[USER_LON, USER_LAT]}
+        >
           <View style={styles.userMarker} />
-        </Marker>
+        </MapLibreGL.PointAnnotation>
 
         {/* Charger destination marker */}
-        <Marker coordinate={{ latitude: location.latitude, longitude: location.longitude }}>
-          <MaterialCommunityIcons name="ev-station" size={28} color={DSColors.primary} />
-        </Marker>
+        <MapLibreGL.PointAnnotation
+          id="destination"
+          coordinate={[location.longitude, location.latitude]}
+        >
+          <View>
+            <MaterialCommunityIcons name="ev-station" size={28} color={DSColors.primary} />
+          </View>
+        </MapLibreGL.PointAnnotation>
 
-        {/* Route polyline — must be direct child of MapView */}
-        <Polyline
-          coordinates={[
+        {/* Route line */}
+        <MapLibreGL.ShapeSource
+          id="route"
+          shape={buildLineGeoJSON([
             { latitude: USER_LAT, longitude: USER_LON },
             { latitude: 52.3690, longitude: 4.8970 },
             { latitude: 52.3700, longitude: 4.8950 },
             { latitude: location.latitude, longitude: location.longitude },
-          ]}
-          strokeColor={DSColors.primary}
-          strokeWidth={4}
-        />
-      </MapView>
+          ])}
+        >
+          <MapLibreGL.LineLayer
+            id="routeLine"
+            style={{ lineColor: DSColors.primary, lineWidth: 4 }}
+          />
+        </MapLibreGL.ShapeSource>
+      </MapLibreGL.MapView>
 
       {/* ETA overlay card */}
       <View style={[styles.overlayCard, { top: insets.top + 8 }]}>
