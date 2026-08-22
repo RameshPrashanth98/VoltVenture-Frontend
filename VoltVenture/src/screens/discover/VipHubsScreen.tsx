@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import MapView, { Marker } from 'react-native-maps';
+import MapLibreGL from '@maplibre/maplibre-react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import type { StackScreenProps } from '@react-navigation/stack';
@@ -90,16 +90,13 @@ const MOCK_HUBS: VipHub[] = [
 export default function VipHubsScreen({ navigation }: Props) {
   const rootNavigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const [expandedHubId, setExpandedHubId] = useState<string | null>(null);
-  const mapRef = useRef<MapView>(null);
+  const cameraRef = useRef<MapLibreGL.Camera>(null);
   const flatListRef = useRef<FlatList>(null);
 
   const handleHubMarkerPress = useCallback((hub: VipHub, index: number) => {
     setExpandedHubId(hub.id);
     flatListRef.current?.scrollToIndex({ index, animated: true });
-    mapRef.current?.animateToRegion(
-      { latitude: hub.latitude, longitude: hub.longitude, latitudeDelta: 0.01, longitudeDelta: 0.01 },
-      500,
-    );
+    cameraRef.current?.flyTo([hub.longitude, hub.latitude], 500);
   }, []);
 
   const renderHub = ({ item, index }: { item: VipHub; index: number }) => {
@@ -113,10 +110,7 @@ export default function VipHubsScreen({ navigation }: Props) {
       <TouchableOpacity
         onPress={() => {
           setExpandedHubId(isExpanded ? null : item.id);
-          mapRef.current?.animateToRegion(
-            { latitude: item.latitude, longitude: item.longitude, latitudeDelta: 0.01, longitudeDelta: 0.01 },
-            500,
-          );
+          cameraRef.current?.flyTo([item.longitude, item.latitude], 500);
           if (!isExpanded) {
             flatListRef.current?.scrollToIndex({ index, animated: true });
           }
@@ -194,33 +188,32 @@ export default function VipHubsScreen({ navigation }: Props) {
       </View>
 
       {/* Map — fixed height 45% of screen */}
-      <MapView
-        ref={mapRef}
+      <MapLibreGL.MapView
         style={{ height: MAP_HEIGHT }}
-        initialRegion={{
-          latitude: 52.3676,
-          longitude: 4.9041,
-          latitudeDelta: 0.04,
-          longitudeDelta: 0.04,
-        }}
+        styleURL="https://demotiles.maplibre.org/style.json"
         scrollEnabled={false}
         zoomEnabled={false}
         pitchEnabled={false}
         rotateEnabled={false}
       >
+        <MapLibreGL.Camera
+          ref={cameraRef}
+          centerCoordinate={[4.9041, 52.3676]}
+          zoomLevel={13}
+        />
         {MOCK_HUBS.map((hub, index) => (
-          <Marker
+          <MapLibreGL.PointAnnotation
             key={hub.id}
-            coordinate={{ latitude: hub.latitude, longitude: hub.longitude }}
-            onPress={() => handleHubMarkerPress(hub, index)}
-            tracksViewChanges={false}
+            id={`hub-${hub.id}`}
+            coordinate={[hub.longitude, hub.latitude]}
+            onSelected={() => handleHubMarkerPress(hub, index)}
           >
             <View style={styles.hubMarker}>
               <MaterialCommunityIcons name="star-circle" size={18} color={DSColors.textOnPrimary} />
             </View>
-          </Marker>
+          </MapLibreGL.PointAnnotation>
         ))}
-      </MapView>
+      </MapLibreGL.MapView>
 
       {/* Hub list — fills remaining space */}
       <FlatList
