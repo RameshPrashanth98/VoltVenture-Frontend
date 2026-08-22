@@ -1,48 +1,82 @@
 {
   "version": "1.0",
-  "timestamp": "2026-08-22T00:00:00Z",
+  "timestamp": "2026-08-23T00:00:00Z",
   "phase": "10",
   "phase_name": "Emulator Setup & Smoke Test",
   "phase_dir": ".planning/phases/10-emulator-setup-smoke-test",
-  "plan": 1,
-  "task": 0,
+  "plan": 3,
+  "task": 1,
   "total_tasks": 3,
   "status": "paused",
   "completed_tasks": [
-    {"id": 1, "name": "Phase 10 PLAN.md written (3 plans)", "status": "done", "commit": "b60ddb8"},
-    {"id": 2, "name": "Fix Gradle OOM: bumped JVM heap to -Xmx4g, Metaspace to 512m", "status": "done", "commit": "disk-only (android/ is gitignored)"},
-    {"id": 3, "name": "Fix CMake/JDK failure: set newArchEnabled=false, added --add-opens flags", "status": "done", "commit": "disk-only (android/ is gitignored)"}
+    {
+      "id": 1,
+      "name": "Plan 10.1 — MapLibre Dependency Swap & App Configuration",
+      "status": "done",
+      "commit": "96c3648"
+    },
+    {
+      "id": 2,
+      "name": "Plan 10.2 — MapLibre Screen Migration (7 screens)",
+      "status": "done",
+      "commit": "41e1cd5"
+    }
   ],
   "remaining_tasks": [
-    {"id": 4, "name": "Verify build passes with Gradle fixes (npx expo run:android)", "status": "not_started"},
-    {"id": 5, "name": "Plan 10.1 — MapLibre dependency swap & app config", "status": "not_started"},
-    {"id": 6, "name": "Plan 10.2 — Screen migration (7 screens)", "status": "not_started"},
-    {"id": 7, "name": "Plan 10.3 — Build, smoke test & VERIFICATION.md", "status": "not_started"}
+    {
+      "id": 3,
+      "name": "Plan 10.3 — Build, Smoke Test & VERIFICATION.md",
+      "status": "not_started",
+      "notes": "Requires human to start Android emulator first. Then: verify gradle.properties fixes on disk, npx expo run:android, smoke test SETUP-01/SETUP-02, write VERIFICATION.md."
+    }
   ],
   "blockers": [
     {
-      "description": "Build not yet confirmed passing — two Gradle fixes applied but build not re-run to verify",
+      "description": "Android emulator must be started manually via Android Studio Device Manager",
       "type": "human_action",
-      "workaround": "Start emulator, run npx expo run:android to confirm fixes before starting Plan 10.1"
+      "workaround": "none — required before npx expo run:android"
+    },
+    {
+      "description": "android/gradle.properties is gitignored — JVM heap + newArchEnabled=false fixes must be verified on disk before building",
+      "type": "technical",
+      "workaround": "Check file contents; reapply if missing (see 10-01-SUMMARY.md for exact values)"
     }
   ],
   "human_actions_pending": [
     {
-      "action": "Start Android emulator (adb devices), then run: cd VoltVenture && npx expo run:android to confirm the two Gradle fixes resolve the build",
-      "context": "Fix 1: OOM Metaspace — bumped JVM to -Xmx4g / -XX:MaxMetaspaceSize=512m. Fix 2: CMake restricted method failure — set newArchEnabled=false, added --add-opens flags. Both fixes are in android/gradle.properties (disk-only, gitignored).",
+      "action": "Start Android emulator (API 33+) via Android Studio Device Manager",
+      "context": "npx expo run:android fails immediately if no emulator is running",
       "blocking": true
     }
   ],
   "decisions": [
-    {"decision": "newArchEnabled=false in android/gradle.properties", "rationale": "react-native-worklets and react-native-screens CMake config fails with JDK 17/21 restricted System methods. Disabling New Architecture avoids CMake builds entirely. Functionally identical for UAT.", "phase": "10"},
-    {"decision": "JVM heap: -Xmx4g, -XX:MaxMetaspaceSize=512m", "rationale": "Default 768m heap caused OutOfMemoryError: Metaspace during async-storage manifest processing. RN with many native modules needs 2-4GB.", "phase": "10"},
-    {"decision": "android/ is gitignored — gradle.properties fixes are disk-only", "rationale": "VoltVenture/.gitignore line 41 excludes /android. If expo prebuild --clean is run, gradle.properties fixes must be reapplied.", "phase": "10"},
-    {"decision": "Replace react-native-maps with @maplibre/maplibre-react-native (OSM tiles)", "rationale": "Removes Google Maps API key requirement for UAT. Google Maps deferred to v3.0.", "phase": "10"},
-    {"decision": "Leave google-signin and expo-apple-authentication in place", "rationale": "google-signin is mocked; apple-auth is iOS-only no-op on Android. Only remove on actual build failure.", "phase": "10"}
+    {
+      "decision": "MapLibre 11.3.6 with OSM demotiles (no API key)",
+      "rationale": "Avoids Google Maps API key requirement; compatible with RN 0.86.2 + Expo SDK 57",
+      "phase": "10"
+    },
+    {
+      "decision": "newArchEnabled=false",
+      "rationale": "CMake configureCMakeDebug fails for react-native-worklets + react-native-screens with JDK 17/21",
+      "phase": "10"
+    },
+    {
+      "decision": "JVM heap: -Xmx4g -XX:MaxMetaspaceSize=512m",
+      "rationale": "Prevents OutOfMemoryError: Metaspace during Gradle build with many RN native modules",
+      "phase": "10"
+    },
+    {
+      "decision": "PointAnnotation requires single View child — bare icons wrapped in View",
+      "rationale": "MapLibre requirement; navigation/charging screens had bare MaterialCommunityIcons as Marker children",
+      "phase": "10"
+    },
+    {
+      "decision": "GeoJSON coordinate order [longitude, latitude] throughout",
+      "rationale": "MapLibre uses GeoJSON convention — opposite of react-native-maps {latitude, longitude}",
+      "phase": "10"
+    }
   ],
-  "uncommitted_files": [
-    ".planning/STATE.md"
-  ],
-  "next_action": "1. Start emulator. 2. Run npx expo run:android to verify Gradle fixes pass. 3. If passes: execute Plan 10.1 + 10.2 in parallel (MapLibre swap + screen migration). 4. Execute Plan 10.3 (build + smoke test + VERIFICATION.md).",
-  "context_notes": "Plans 10.1–10.3 are fully written and ready. No app code has changed yet — still on react-native-maps. Only android/gradle.properties was modified (disk-only). The two Gradle build errors were fixed but not yet verified by a successful build."
+  "uncommitted_files": [],
+  "next_action": "Start Android emulator → adb devices (confirm device) → verify android/gradle.properties has both Gradle fixes → cd VoltVenture && npx expo run:android → smoke test SETUP-01/SETUP-02 → write VERIFICATION.md",
+  "context_notes": "Plans 10.1 (dep swap + prebuild) and 10.2 (7 screen migrations) are fully committed. Codebase has zero react-native-maps imports. The only remaining work is runtime: build the APK, install on emulator, walk through smoke test checklists, record results. The build should pass given the Gradle fixes — two sequential Gradle errors were diagnosed and fixed earlier (OOM Metaspace + CMake/New Architecture). The emulator start is the only human gate."
 }
