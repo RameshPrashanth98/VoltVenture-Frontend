@@ -50,7 +50,7 @@ See full details: `.planning/milestones/v1.1-ROADMAP.md`
 | 7 | Navigation & Ride Extras | v1.1 | 3 | Complete | 2026-08-19 |
 | 8 | Payments & Rewards | v1.1 | 3 | Complete | 2026-08-19 |
 | 9 | Discovery & Content | v1.1 | 3 | Complete | 2026-08-19 |
-| 10 | Emulator Setup & Smoke Test | v1.2 | 3 (1 of 3 done) | In Progress | — |
+| 10 | Emulator Setup & Smoke Test | v1.2 | 3 (2 of 3 done) | In Progress | — |
 | 11 | Core Flow UAT | v1.2 | — | Pending | — |
 | 12 | Ride & Account UAT | v1.2 | — | Pending | — |
 | 13 | Extras UAT & Bug Fixes | v1.2 | — | Pending | — |
