@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import MapLibreGL from '@maplibre/maplibre-react-native';
+import { Map as MapView, Camera, Marker } from '@maplibre/maplibre-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { StackScreenProps } from '@react-navigation/stack';
@@ -51,32 +51,30 @@ export default function EndRideFindChargingScreen({ navigation }: Props) {
 
   return (
     <View style={StyleSheet.absoluteFill}>
-      <MapLibreGL.MapView
+      <MapView
         style={StyleSheet.absoluteFill}
-        styleURL="https://demotiles.maplibre.org/style.json"
-        scrollEnabled={true}
-        zoomEnabled={true}
-        rotateEnabled={false}
-        pitchEnabled={false}
+        mapStyle="https://demotiles.maplibre.org/style.json"
+        touchRotate={false}
+        touchPitch={false}
         onPress={() => setSelectedCharger(null)}
       >
-        <MapLibreGL.Camera
-          centerCoordinate={[USER_LON, USER_LAT]}
-          zoomLevel={14}
+        <Camera
+          center={[USER_LON, USER_LAT]}
+          zoom={14}
         />
         {MOCK_CHARGERS.map(charger => (
-          <MapLibreGL.PointAnnotation
+          <Marker
             key={charger.name}
             id={`charger-${charger.name}`}
-            coordinate={[charger.longitude, charger.latitude]}
-            onSelected={() => setSelectedCharger(charger)}
+            lngLat={[charger.longitude, charger.latitude]}
+            onPress={() => setSelectedCharger(charger)}
           >
             <View style={styles.chargerPin}>
               <MaterialCommunityIcons name="ev-station" size={28} color={DSColors.primary} />
             </View>
-          </MapLibreGL.PointAnnotation>
+          </Marker>
         ))}
-      </MapLibreGL.MapView>
+      </MapView>
 
       {/* Close button — top left */}
       <TouchableOpacity

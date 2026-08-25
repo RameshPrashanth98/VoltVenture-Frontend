@@ -25,7 +25,7 @@ export default function DiscoverScreen({ navigation }: Props) {
           accessibilityLabel="Curated Routes"
         >
           <View style={styles.menuRowLeft}>
-            <MaterialCommunityIcons name="map-route" size={20} color={DSColors.textPrimary} />
+            <MaterialCommunityIcons name="routes" size={20} color={DSColors.textPrimary} />
             <Text style={styles.menuRowText}>Curated Routes</Text>
           </View>
           <MaterialCommunityIcons name="chevron-right" size={20} color={DSColors.textSecondary} />

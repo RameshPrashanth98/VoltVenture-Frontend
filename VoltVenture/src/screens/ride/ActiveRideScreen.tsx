@@ -6,7 +6,7 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
-import MapLibreGL from '@maplibre/maplibre-react-native';
+import { Map as MapView, Camera, Marker } from '@maplibre/maplibre-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { StackScreenProps } from '@react-navigation/stack';
@@ -79,25 +79,25 @@ export default function ActiveRideScreen({ route, navigation }: Props) {
   return (
     <View style={StyleSheet.absoluteFill}>
       {/* Full-screen map */}
-      <MapLibreGL.MapView
+      <MapView
         style={StyleSheet.absoluteFill}
-        styleURL="https://demotiles.maplibre.org/style.json"
-        scrollEnabled={false}
-        zoomEnabled={false}
-        rotateEnabled={false}
-        pitchEnabled={false}
+        mapStyle="https://demotiles.maplibre.org/style.json"
+        dragPan={false}
+        touchZoom={false}
+        touchRotate={false}
+        touchPitch={false}
       >
-        <MapLibreGL.Camera
-          centerCoordinate={[4.9041, 52.3676]}
-          zoomLevel={13}
+        <Camera
+          center={[4.9041, 52.3676]}
+          zoom={13}
         />
-        <MapLibreGL.PointAnnotation
+        <Marker
           id="user-location"
-          coordinate={[4.9041, 52.3676]}
+          lngLat={[4.9041, 52.3676]}
         >
           <View style={styles.userMarker} />
-        </MapLibreGL.PointAnnotation>
-      </MapLibreGL.MapView>
+        </Marker>
+      </MapView>
 
       {/* Top overlay card */}
       <View style={[styles.overlayCard, { top: insets.top + 8 }]}>

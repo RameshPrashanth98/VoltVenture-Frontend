@@ -37,6 +37,7 @@ export default function SupportScreen({ navigation }: Props) {
         >
           <List.Item
             description="Tap any green bike pin on the map, book the bike, and scan the QR code on the bike's handlebars. The ride starts automatically."
+            title=""
             descriptionStyle={styles.accordionBody}
             descriptionNumberOfLines={0}
           />
@@ -48,6 +49,7 @@ export default function SupportScreen({ navigation }: Props) {
         >
           <List.Item
             description="You're charged per minute from the moment the bike unlocks. The session cost is shown in real-time on the Active Ride screen."
+            title=""
             descriptionStyle={styles.accordionBody}
             descriptionNumberOfLines={0}
           />
@@ -59,6 +61,7 @@ export default function SupportScreen({ navigation }: Props) {
         >
           <List.Item
             description="Tap 'End Ride' on the Active Ride screen. Park the bike in a designated VoltVenture zone and confirm. Payment is processed automatically."
+            title=""
             descriptionStyle={styles.accordionBody}
             descriptionNumberOfLines={0}
           />
@@ -73,6 +76,7 @@ export default function SupportScreen({ navigation }: Props) {
         >
           <List.Item
             description="On the Login screen, tap 'Forgot password?' and enter your email. You'll receive a reset link within a few minutes."
+            title=""
             descriptionStyle={styles.accordionBody}
             descriptionNumberOfLines={0}
           />
@@ -84,6 +88,7 @@ export default function SupportScreen({ navigation }: Props) {
         >
           <List.Item
             description="Go to Account → Payment Methods → Add Payment Method. Enter your card details and tap Save."
+            title=""
             descriptionStyle={styles.accordionBody}
             descriptionNumberOfLines={0}
           />
@@ -95,6 +100,7 @@ export default function SupportScreen({ navigation }: Props) {
         >
           <List.Item
             description="Go to Account → Ride History. All past rides with cost, duration, and distance are listed there."
+            title=""
             descriptionStyle={styles.accordionBody}
             descriptionNumberOfLines={0}
           />
@@ -109,6 +115,7 @@ export default function SupportScreen({ navigation }: Props) {
         >
           <List.Item
             description="Check your Bluetooth and internet connection, then try again. If the issue persists, tap 'Cancel Booking' and contact support."
+            title=""
             descriptionStyle={styles.accordionBody}
             descriptionNumberOfLines={0}
           />
@@ -120,6 +127,7 @@ export default function SupportScreen({ navigation }: Props) {
         >
           <List.Item
             description="Call local emergency services immediately. You can also contact VoltVenture support via the Contact Support button below."
+            title=""
             descriptionStyle={styles.accordionBody}
             descriptionNumberOfLines={0}
           />

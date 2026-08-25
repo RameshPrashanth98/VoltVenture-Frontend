@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import MapLibreGL from '@maplibre/maplibre-react-native';
+import { Map as MapView, Camera, Marker, GeoJSONSource, Layer } from '@maplibre/maplibre-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { StackScreenProps } from '@react-navigation/stack';
@@ -49,55 +49,55 @@ export default function RidingToChargingScreen({ route }: Props) {
 
   return (
     <View style={StyleSheet.absoluteFill}>
-      <MapLibreGL.MapView
+      <MapView
         style={StyleSheet.absoluteFill}
-        styleURL="https://demotiles.maplibre.org/style.json"
-        scrollEnabled={false}
-        zoomEnabled={true}
-        rotateEnabled={false}
-        pitchEnabled={false}
+        mapStyle="https://demotiles.maplibre.org/style.json"
+        dragPan={false}
+        touchRotate={false}
+        touchPitch={false}
       >
-        <MapLibreGL.Camera
-          centerCoordinate={[
+        <Camera
+          center={[
             (USER_LON + location.longitude) / 2,
             (USER_LAT + location.latitude) / 2,
           ]}
-          zoomLevel={13}
+          zoom={13}
         />
         {/* User position dot */}
-        <MapLibreGL.PointAnnotation
+        <Marker
           id="route-start"
-          coordinate={[USER_LON, USER_LAT]}
+          lngLat={[USER_LON, USER_LAT]}
         >
           <View style={styles.userMarker} />
-        </MapLibreGL.PointAnnotation>
+        </Marker>
 
         {/* Charger destination marker */}
-        <MapLibreGL.PointAnnotation
+        <Marker
           id="destination"
-          coordinate={[location.longitude, location.latitude]}
+          lngLat={[location.longitude, location.latitude]}
         >
           <View>
             <MaterialCommunityIcons name="ev-station" size={28} color={DSColors.primary} />
           </View>
-        </MapLibreGL.PointAnnotation>
+        </Marker>
 
         {/* Route line */}
-        <MapLibreGL.ShapeSource
+        <GeoJSONSource
           id="route"
-          shape={buildLineGeoJSON([
+          data={buildLineGeoJSON([
             { latitude: USER_LAT, longitude: USER_LON },
             { latitude: 52.3690, longitude: 4.8970 },
             { latitude: 52.3700, longitude: 4.8950 },
             { latitude: location.latitude, longitude: location.longitude },
           ])}
         >
-          <MapLibreGL.LineLayer
+          <Layer
+            type="line"
             id="routeLine"
             style={{ lineColor: DSColors.primary, lineWidth: 4 }}
           />
-        </MapLibreGL.ShapeSource>
-      </MapLibreGL.MapView>
+        </GeoJSONSource>
+      </MapView>
 
       {/* ETA overlay card */}
       <View style={[styles.overlayCard, { top: insets.top + 8 }]}>
