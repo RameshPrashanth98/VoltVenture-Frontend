@@ -1,82 +1,58 @@
 {
   "version": "1.0",
-  "timestamp": "2026-08-23T00:00:00Z",
+  "timestamp": "2026-08-31T00:00:00Z",
   "phase": "10",
   "phase_name": "Emulator Setup & Smoke Test",
   "phase_dir": ".planning/phases/10-emulator-setup-smoke-test",
   "plan": 3,
   "task": 1,
-  "total_tasks": 3,
+  "total_tasks": 9,
   "status": "paused",
   "completed_tasks": [
-    {
-      "id": 1,
-      "name": "Plan 10.1 — MapLibre Dependency Swap & App Configuration",
-      "status": "done",
-      "commit": "96c3648"
-    },
-    {
-      "id": 2,
-      "name": "Plan 10.2 — MapLibre Screen Migration (7 screens)",
-      "status": "done",
-      "commit": "41e1cd5"
-    }
+    {"id": 1, "name": "Plan 10.1: MapLibre dep swap + app configuration", "status": "done", "commit": "96c3648"},
+    {"id": 2, "name": "Plan 10.2: 7 screen MapLibre migrations", "status": "done", "commit": "41e1cd5"},
+    {"id": 3, "name": "Plan 10.3 build env: copy project to C:\\vv, fix JDK 25, -Xmx2g, path issues", "status": "done", "commit": "f0e170e"}
   ],
   "remaining_tasks": [
-    {
-      "id": 3,
-      "name": "Plan 10.3 — Build, Smoke Test & VERIFICATION.md",
-      "status": "not_started",
-      "notes": "Requires human to start Android emulator first. Then: verify gradle.properties fixes on disk, npx expo run:android, smoke test SETUP-01/SETUP-02, write VERIFICATION.md."
-    }
+    {"id": 4, "name": "Close Android Studio (keep emulator standalone)", "status": "not_started"},
+    {"id": 5, "name": "Confirm adb devices shows 'device'", "status": "not_started"},
+    {"id": 6, "name": "Verify C:\\vv gradle.properties: -Xmx2g + newArchEnabled=false", "status": "not_started"},
+    {"id": 7, "name": "Run build: cd /c/vv/VoltVenture && CMAKE_BUILD_PARALLEL_LEVEL=1 JAVA_TOOL_OPTIONS='--enable-native-access=ALL-UNNAMED' npx expo run:android", "status": "not_started"},
+    {"id": 8, "name": "Smoke test SETUP-01 + SETUP-02 on emulator", "status": "not_started"},
+    {"id": 9, "name": "Write VERIFICATION.md, commit, update STATE.md — Phase 10 complete", "status": "not_started"}
   ],
   "blockers": [
     {
-      "description": "Android emulator must be started manually via Android Studio Device Manager",
-      "type": "human_action",
-      "workaround": "none — required before npx expo run:android"
-    },
-    {
-      "description": "android/gradle.properties is gitignored — JVM heap + newArchEnabled=false fixes must be verified on disk before building",
+      "description": "react-native-worklets clang++ OOM — each C++20 file uses 500MB–1GB per clang++ process; parallel compile exhausts 15GB RAM",
       "type": "technical",
-      "workaround": "Check file contents; reapply if missing (see 10-01-SUMMARY.md for exact values)"
+      "workaround": "Close Android Studio entirely (emulator can stay running standalone). Set CMAKE_BUILD_PARALLEL_LEVEL=1. Build: cd /c/vv/VoltVenture && CMAKE_BUILD_PARALLEL_LEVEL=1 JAVA_TOOL_OPTIONS='--enable-native-access=ALL-UNNAMED' npx expo run:android"
     }
   ],
   "human_actions_pending": [
     {
-      "action": "Start Android emulator (API 33+) via Android Studio Device Manager",
-      "context": "npx expo run:android fails immediately if no emulator is running",
+      "action": "Close Android Studio before running build (emulator can stay running standalone via emulator process)",
+      "context": "AS + emulator + Gradle(2g) + parallel clang++ exhausts 15GB RAM. Must close AS to free ~2GB before build.",
+      "blocking": true
+    },
+    {
+      "action": "Confirm emulator is running: run 'adb devices' and verify it shows 'device'",
+      "context": "npx expo run:android fails immediately if no device is connected",
+      "blocking": true
+    },
+    {
+      "action": "Verify C:\\vv\\VoltVenture\\android\\gradle.properties has -Xmx2g and newArchEnabled=false",
+      "context": "This file is gitignored at C:\\vv (disk-only copy). May be stale if C:\\vv was refreshed from D:\\.",
       "blocking": true
     }
   ],
   "decisions": [
-    {
-      "decision": "MapLibre 11.3.6 with OSM demotiles (no API key)",
-      "rationale": "Avoids Google Maps API key requirement; compatible with RN 0.86.2 + Expo SDK 57",
-      "phase": "10"
-    },
-    {
-      "decision": "newArchEnabled=false",
-      "rationale": "CMake configureCMakeDebug fails for react-native-worklets + react-native-screens with JDK 17/21",
-      "phase": "10"
-    },
-    {
-      "decision": "JVM heap: -Xmx4g -XX:MaxMetaspaceSize=512m",
-      "rationale": "Prevents OutOfMemoryError: Metaspace during Gradle build with many RN native modules",
-      "phase": "10"
-    },
-    {
-      "decision": "PointAnnotation requires single View child — bare icons wrapped in View",
-      "rationale": "MapLibre requirement; navigation/charging screens had bare MaterialCommunityIcons as Marker children",
-      "phase": "10"
-    },
-    {
-      "decision": "GeoJSON coordinate order [longitude, latitude] throughout",
-      "rationale": "MapLibre uses GeoJSON convention — opposite of react-native-maps {latitude, longitude}",
-      "phase": "10"
-    }
+    {"decision": "Project copied to C:\\vv (real dir, not junction)", "rationale": "CMake path length >250 chars at D:\\ long path; junction resolves to real path so fails too", "phase": "10"},
+    {"decision": "gradle.properties: -Xmx2g (down from 4g)", "rationale": "JVM native OOM during dexing/R8 on 15GB with emulator + AS running", "phase": "10"},
+    {"decision": "CMAKE_BUILD_PARALLEL_LEVEL=1 required", "rationale": "Prevent clang++ parallel OOM during worklets C++20 compilation", "phase": "10"},
+    {"decision": "JAVA_TOOL_OPTIONS='--enable-native-access=ALL-UNNAMED'", "rationale": "Suppresses JDK 25 restricted method warnings in all subprocess JVMs", "phase": "10"},
+    {"decision": "newArchEnabled=false", "rationale": "Avoid new arch build complexity during UAT phase", "phase": "10"}
   ],
   "uncommitted_files": [],
-  "next_action": "Start Android emulator → adb devices (confirm device) → verify android/gradle.properties has both Gradle fixes → cd VoltVenture && npx expo run:android → smoke test SETUP-01/SETUP-02 → write VERIFICATION.md",
-  "context_notes": "Plans 10.1 (dep swap + prebuild) and 10.2 (7 screen migrations) are fully committed. Codebase has zero react-native-maps imports. The only remaining work is runtime: build the APK, install on emulator, walk through smoke test checklists, record results. The build should pass given the Gradle fixes — two sequential Gradle errors were diagnosed and fixed earlier (OOM Metaspace + CMake/New Architecture). The emulator start is the only human gate."
+  "next_action": "1. Close Android Studio. 2. Run: adb devices (confirm 'device'). 3. Verify C:\\vv gradle.properties (-Xmx2g, newArchEnabled=false). 4. Run: cd /c/vv/VoltVenture && CMAKE_BUILD_PARALLEL_LEVEL=1 JAVA_TOOL_OPTIONS='--enable-native-access=ALL-UNNAMED' npx expo run:android",
+  "context_notes": "Build environment is fully configured. The ONLY remaining blocker is worklets clang++ OOM — solved by (a) closing AS and (b) CMAKE_BUILD_PARALLEL_LEVEL=1. Once APK installs, smoke test is a 5-10 min walk-through of SETUP-01 and SETUP-02 checklists. All 7 MapLibre screen migrations are committed. TypeScript is clean (0 errors)."
 }
